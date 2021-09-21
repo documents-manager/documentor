@@ -1,7 +1,10 @@
 package org.documentmanager.entity.db;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.json.bind.annotation.JsonbTransient;
@@ -29,7 +32,7 @@ public class Epic extends PanacheEntityBase implements Serializable {
     private Long id;
     @NotBlank
     private String name;
-    @OneToMany
+    @OneToMany(mappedBy = "epic", cascade = CascadeType.MERGE)
     @JsonbTransient
     @ToString.Exclude
     private List<Document> associatedDocuments;

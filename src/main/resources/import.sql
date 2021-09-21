@@ -29,12 +29,6 @@ VALUES (2, 2);
 insert into document_label (document_id, label_id)
 VALUES (1, 2);
 
-insert into epic_document (epic_id, associateddocuments_id)
-VALUES (1, 1);
-insert into epic_document (epic_id, associateddocuments_id)
-VALUES (2, 3);
-insert into epic_document (epic_id, associateddocuments_id)
-VALUES (2, 2);
 
 insert into documentreference (source_id, target_id, referencetype)
 VALUES (1, 2, 'MENTION');

@@ -2,11 +2,12 @@ package org.documentmanager.control.s3;
 
 
 import io.quarkus.runtime.StartupEvent;
+import io.quarkus.runtime.configuration.ProfileManager;
 import io.smallrye.mutiny.Uni;
-import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.documentmanager.entity.s3.FileObject;
 import org.documentmanager.entity.s3.FormData;
 import org.documentmanager.entity.s3.GetResponse;
+import org.eclipse.microprofile.config.inject.ConfigProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import software.amazon.awssdk.core.async.AsyncRequestBody;
@@ -22,6 +23,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Inject;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -101,9 +103,11 @@ public class S3Service {
     void startup(
             @Observes StartupEvent ev,
             @ConfigProperty(name = "bucket.name") String bucketName,
+            S3Service s3Service,
             S3Client s3Client,
             S3RequestFactory builder
     ) {
+
         s3Client
                 .listBuckets()
                 .buckets()
@@ -115,6 +119,33 @@ public class S3Service {
                     final var request = builder.createPostBucketRequest();
                     s3.createBucket(request);
                 });
+
+        // Upload test data in DEV and TEST Mode
+        final var profile = ProfileManager.getActiveProfile();
+        if ("dev".equals(profile) || "test".equals(profile)) {
+            try (
+                    var in1 = getClass().getResourceAsStream("/test-files/asset1.pdf");
+                    var in2 = getClass().getResourceAsStream("/test-files/asset2.jpg")
+            ) {
+                final var data1 = new FormData(in1, "asset1.pdf", "application/pdf");
+                final var data2 = new FormData(in2, "asset2.jpg", "image/jpg");
+                Uni.combine()
+                        .all()
+                        .unis(
+                                s3Service.uploadObject("1", data1),
+                                s3Service.uploadObject("2", data2)
+                        )
+                        .asTuple()
+                        .onItem()
+                        .invoke(() -> logger.info("Uploaded test file to s3"))
+                        .onFailure()
+                        .invoke(() -> logger.info("Test files already present"))
+                        .await()
+                        .indefinitely();
+            } catch (IOException e) {
+                logger.error("Error initializing test", e);
+            }
+        }
     }
 }
 

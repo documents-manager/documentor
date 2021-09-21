@@ -43,7 +43,15 @@
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-resteasy-mutiny</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-orm-panache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-orm-rest-data-panache</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -103,6 +111,15 @@
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
       <scope>compile</scope>
+    </dependency>
+    <!--
+    Make mapstruct and lombok work together
+    See: https://mapstruct.org/faq/#Can-I-use-MapStruct-together-with-Project-Lombok
+     -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok-mapstruct-binding</artifactId>
+      <version>0.2.0</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

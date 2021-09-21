@@ -56,6 +56,7 @@ public class Asset extends PanacheEntityBase implements Serializable {
     @JoinColumn(updatable = false)
     @ManyToOne
     @NotNull
+    @ToString.Exclude
     private Document document;
 
     @Override

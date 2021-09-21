@@ -1,7 +1,10 @@
 package org.documentmanager.entity.db;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -42,13 +45,11 @@ public class Document extends PanacheEntityBase implements Serializable {
             nullable = false
     )
     @CreationTimestamp
-    @NotNull
     private LocalDateTime created;
     @Column(columnDefinition = "TIMESTAMP")
     @UpdateTimestamp
-    @NotNull
     private LocalDateTime lastUpdated;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Epic epic;
     @ManyToMany
     @JoinTable(
