@@ -1,8 +1,10 @@
 package org.documentmanager.entity.s3;
 
+import lombok.Data;
 import software.amazon.awssdk.services.s3.model.S3Object;
 
-public class FileObject {
+@Data
+public final class FileObject {
   private String objectKey;
 
   private Long size;
@@ -14,21 +16,5 @@ public class FileObject {
       file.setSize(s3Object.size());
     }
     return file;
-  }
-
-  public String getObjectKey() {
-    return objectKey;
-  }
-
-  public void setObjectKey(final String objectKey) {
-    this.objectKey = objectKey;
-  }
-
-  public Long getSize() {
-    return size;
-  }
-
-  public void setSize(final Long size) {
-    this.size = size;
   }
 }

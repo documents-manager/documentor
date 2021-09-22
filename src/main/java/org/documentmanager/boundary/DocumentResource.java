@@ -43,7 +43,7 @@ public class DocumentResource {
         .orElseThrow(() -> new DocumentNotFoundException(id));
   }
 
-  @Consumes("/")
+  @Consumes(APPLICATION_JSON)
   @POST
   @Transactional
   public Response create(final DocumentDto documentDto) {

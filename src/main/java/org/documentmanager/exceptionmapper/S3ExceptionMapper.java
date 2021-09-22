@@ -17,7 +17,7 @@ public class S3ExceptionMapper implements ExceptionMapper<S3Exception> {
   }
 
   @Override
-  public Response toResponse(final S3Exception exception) {
+  public final Response toResponse(final S3Exception exception) {
     return Response.status(exception.awsErrorDetails().sdkHttpResponse().statusCode())
         .entity(parse(exception.awsErrorDetails()))
         .build();
@@ -29,7 +29,7 @@ public class S3ExceptionMapper implements ExceptionMapper<S3Exception> {
     private String serviceName;
 
     @SuppressWarnings("CdiInjectionPointsInspection")
-    public S3Error(final AwsErrorDetails details) {
+    S3Error(final AwsErrorDetails details) {
       super(details.errorCode(), details.errorMessage());
       this.serviceName = details.serviceName();
     }

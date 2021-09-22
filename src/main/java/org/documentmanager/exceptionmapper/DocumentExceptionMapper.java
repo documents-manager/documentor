@@ -12,7 +12,7 @@ import javax.ws.rs.ext.Provider;
 import static org.documentmanager.exceptionmapper.ExceptionMapperUtils.buildErrorResponse;
 
 @Provider
-public class DocumentExceptionMapper implements ExceptionMapper<DocumentException> {
+public final class DocumentExceptionMapper implements ExceptionMapper<DocumentException> {
   @Override
   public Response toResponse(final DocumentException e) {
     if (UnsupportedDocumentException.class.equals(e.getClass())) {
@@ -41,11 +41,11 @@ public class DocumentExceptionMapper implements ExceptionMapper<DocumentExceptio
   }
 
   static class DocumentError extends Error {
-    public DocumentError(final String errorCode, final String errorMessage) {
+    DocumentError(final String errorCode, final String errorMessage) {
       super(errorCode, errorMessage);
     }
 
-    public DocumentError(final Response.Status status, final String message) {
+    DocumentError(final Response.Status status, final String message) {
       super(status, message);
     }
   }

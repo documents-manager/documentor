@@ -21,7 +21,7 @@ public class AssetResource {
 
   @Inject AssetService assetService;
 
-  @javax.ws.rs.PathParam("id")
+  @PathParam("id")
   Long id;
 
   @POST

@@ -4,9 +4,20 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 
 public class EntityFixture {
+
+  public static final long EPIC_ID = 10L;
+  public static final long LABEL_ID = 10L;
+  public static final long ASSET_ID = 10L;
+  public static final long FILE_SIZE = 8L;
+  public static final long DOCUMENT_ID = 10L;
+  public static final long SOURCE_ID = 10L;
+  public static final long TARGET_ID = 11L;
+
+  private EntityFixture() {}
+
   public static Label createLabel() {
     final var label = new Label();
-    label.setId(10L);
+    label.setId(LABEL_ID);
     label.setName("SOME NAME");
     label.setVersion(1);
     label.setAssociatedDocuments(null);
@@ -15,7 +26,7 @@ public class EntityFixture {
 
   public static Epic createEpic() {
     final var epic = new Epic();
-    epic.setId(10L);
+    epic.setId(EPIC_ID);
     epic.setName("SOME NAME");
     epic.setVersion(1);
     epic.setAssociatedDocuments(null);
@@ -27,15 +38,15 @@ public class EntityFixture {
     asset.setCreated(LocalDateTime.now());
     asset.setFileName("test.jpg");
     asset.setHash("abc");
-    asset.setId(10L);
+    asset.setId(ASSET_ID);
     asset.setMimeType("image/jpg");
-    asset.setFileSize(8L);
+    asset.setFileSize(FILE_SIZE);
     return asset;
   }
 
   public static Document createBasicDocument() {
     final var document = new Document();
-    document.setId(10L);
+    document.setId(DOCUMENT_ID);
     document.setCreated(LocalDateTime.now());
     document.setLastUpdated(LocalDateTime.now());
     document.setDescription("Some description");
@@ -58,8 +69,8 @@ public class EntityFixture {
 
   public static DocumentReferenceId createDocumentReferenceId() {
     final var documentReferenceId = new DocumentReferenceId();
-    documentReferenceId.setSourceId(10L);
-    documentReferenceId.setTargetId(11L);
+    documentReferenceId.setSourceId(SOURCE_ID);
+    documentReferenceId.setTargetId(TARGET_ID);
     return documentReferenceId;
   }
 
@@ -67,9 +78,9 @@ public class EntityFixture {
     final var documentReference = new DocumentReference();
     documentReference.setReferenceType(DocumentReferenceType.RELATED);
     final var sourceDoc = createBasicDocument();
-    sourceDoc.setId(10L);
+    sourceDoc.setId(SOURCE_ID);
     final var targetDoc = createBasicDocument();
-    targetDoc.setId(11L);
+    targetDoc.setId(TARGET_ID);
     final var documentReferenceId = createDocumentReferenceId();
     documentReference.setId(documentReferenceId);
     documentReference.setSourceDocument(sourceDoc);

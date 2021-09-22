@@ -72,7 +72,8 @@ class DocumentResourceTest {
     given()
         .when()
         .header("Content-Type", MediaType.APPLICATION_JSON)
-        .body("{\"title\": \"Dire Straits\", \"description\": \"Love over gold\"}")
+        .body("{\"title\": \"Dire Straits\", " +
+                "\"description\": \"Love over gold\"}")
         .put("/documents/1")
         .then()
         .statusCode(200)

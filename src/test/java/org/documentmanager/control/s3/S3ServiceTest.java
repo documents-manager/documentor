@@ -53,7 +53,9 @@ class S3ServiceTest {
     final var uni = service.deleteObject(OBJECT_KEY).await().indefinitely();
     final var res = service.listFiles().await().indefinitely();
 
-    final var match = res.stream().anyMatch(f -> f.getObjectKey().equals(OBJECT_KEY));
+    final var match = res
+            .stream()
+            .anyMatch(f -> f.getObjectKey().equals(OBJECT_KEY));
     assertFalse(match);
   }
 }

@@ -17,14 +17,14 @@ import java.util.Map;
 
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class MinioTestResource implements QuarkusTestResourceLifecycleManager {
-  private static final Logger logger = getLogger(MinioTestResource.class);
+public final class MinioTestResource implements QuarkusTestResourceLifecycleManager {
+  private static final Logger LOGGER = getLogger(MinioTestResource.class);
   private static final String REGION = "us-east-1";
   private static final String BUCKET_NAME = "documents";
   private static final String ACCESS_SECRET_KEY = "miniominio";
   private static final int EXPOSED_PORT = 9000;
   private static final String IMAGE_NAME = "minio/minio";
-  private static final GenericContainer<?> minio =
+  private static final GenericContainer<?> MINIO =
       new GenericContainer<>(IMAGE_NAME)
           .withExposedPorts(EXPOSED_PORT, EXPOSED_PORT)
           .withEnv("MINIO_ACCESS_KEY", ACCESS_SECRET_KEY)
@@ -35,9 +35,9 @@ public class MinioTestResource implements QuarkusTestResourceLifecycleManager {
 
   @Override
   public Map<String, String> start() {
-    logger.info("Starting container for image: {}", IMAGE_NAME);
-    minio.start();
-    final var uri = "http://localhost:" + minio.getMappedPort(EXPOSED_PORT);
+    LOGGER.info("Starting container for image: {}", IMAGE_NAME);
+    MINIO.start();
+    final var uri = "http://localhost:" + MINIO.getMappedPort(EXPOSED_PORT);
     final S3Client s3 =
         S3Client.builder()
             .endpointOverride(URI.create(uri))
@@ -50,7 +50,7 @@ public class MinioTestResource implements QuarkusTestResourceLifecycleManager {
     try {
       s3.createBucket(b -> b.bucket(BUCKET_NAME));
     } catch (final BucketAlreadyOwnedByYouException e) {
-      logger.info("Bucket {} already present", BUCKET_NAME);
+      LOGGER.info("Bucket {} already present", BUCKET_NAME);
     }
 
     final var map = new HashMap<String, String>();
@@ -63,7 +63,7 @@ public class MinioTestResource implements QuarkusTestResourceLifecycleManager {
 
   @Override
   public void stop() {
-    minio.stop();
-    minio.close();
+    MINIO.stop();
+    MINIO.close();
   }
 }

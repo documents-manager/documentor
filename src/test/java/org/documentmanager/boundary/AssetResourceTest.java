@@ -33,7 +33,7 @@ class AssetResourceTest {
           .then()
           .statusCode(200)
           .log()
-          .all()
+          .ifValidationFails()
           .extract()
           .body()
           .path("id");
