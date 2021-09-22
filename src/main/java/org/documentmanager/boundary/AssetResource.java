@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 @Path("documents/{id}/assets")
-public class AssetResource {
+public final class AssetResource {
 
   @Inject S3Service s3Service;
 
