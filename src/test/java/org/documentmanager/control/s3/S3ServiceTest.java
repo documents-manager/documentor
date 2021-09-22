@@ -17,45 +17,43 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @QuarkusTest
 @QuarkusTestResource(parallel = true, value = MinioTestResource.class)
 class S3ServiceTest {
-    private final static String OBJECT_KEY = "abc";
+  private static final String OBJECT_KEY = "abc";
 
-    @Inject
-    S3Service service;
+  @Inject S3Service service;
 
-    @Test
-    @Order(1)
-    void uploadObject() {
-        final var data = S3TestFixture.createFormData();
-        final var res = service.uploadObject(OBJECT_KEY, data).await().indefinitely();
+  @Test
+  @Order(1)
+  void uploadObject() {
+    final var data = S3TestFixture.createFormData();
+    final var res = service.uploadObject(OBJECT_KEY, data).await().indefinitely();
 
-        assertNotNull(res);
-    }
+    assertNotNull(res);
+  }
 
-    @Test
-    @Order(2)
-    void getObject() {
-        final var res = service.getObject(OBJECT_KEY);
+  @Test
+  @Order(2)
+  void getObject() {
+    final var res = service.getObject(OBJECT_KEY);
 
-        assertNotNull(res);
-    }
+    assertNotNull(res);
+  }
 
-    @Test
-    @Order(3)
-    void listObjects() {
-        final var res = service.listFiles().await().indefinitely();
+  @Test
+  @Order(3)
+  void listObjects() {
+    final var res = service.listFiles().await().indefinitely();
 
-        assertNotNull(res);
-        assertFalse(res.isEmpty());
-    }
+    assertNotNull(res);
+    assertFalse(res.isEmpty());
+  }
 
-    @Test
-    @Order(4)
-    void deleteObjects() {
-        final var uni = service.deleteObject(OBJECT_KEY)
-                .await().indefinitely();
-        final var res = service.listFiles().await().indefinitely();
+  @Test
+  @Order(4)
+  void deleteObjects() {
+    final var uni = service.deleteObject(OBJECT_KEY).await().indefinitely();
+    final var res = service.listFiles().await().indefinitely();
 
-        final var match = res.stream().anyMatch(f -> f.getObjectKey().equals(OBJECT_KEY));
-        assertFalse(match);
-    }
+    final var match = res.stream().anyMatch(f -> f.getObjectKey().equals(OBJECT_KEY));
+    assertFalse(match);
+  }
 }

@@ -19,37 +19,35 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @SequenceGenerator(
-        name = "labelseq",
-        sequenceName = "labelseq",
-        allocationSize = 1,
-        initialValue = 4
-)
+    name = "labelseq",
+    sequenceName = "labelseq",
+    allocationSize = 1,
+    initialValue = 4)
 public class Label extends PanacheEntityBase implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "labelseq")
-    private Long id;
-    @NotBlank
-    private String name;
-    @ManyToMany(mappedBy = "labels")
-    @JsonbTransient
-    @ToString.Exclude
-    private List<Document> associatedDocuments;
-    @Version
-    @JsonbTransient
-    @NotNull
-    private Integer version;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "labelseq")
+  private Long id;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Label label = (Label) o;
+  @NotBlank private String name;
 
-        return Objects.equals(id, label.id);
-    }
+  @ManyToMany(mappedBy = "labels")
+  @JsonbTransient
+  @ToString.Exclude
+  private List<Document> associatedDocuments;
 
-    @Override
-    public int hashCode() {
-        return 435776578;
-    }
+  @Version @JsonbTransient @NotNull private Integer version;
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    final Label label = (Label) o;
+
+    return Objects.equals(id, label.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return 435776578;
+  }
 }

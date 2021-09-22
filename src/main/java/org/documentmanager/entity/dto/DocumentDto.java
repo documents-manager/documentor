@@ -11,14 +11,13 @@ import java.util.List;
 
 @Data
 public class DocumentDto {
-    private Long id;
-    @NotBlank
-    private String title;
-    private String description;
-    private LocalDateTime created;
-    private LocalDateTime lastUpdated;
-    private Epic epic;
-    private List<Label> labels;
-    private List<Asset> assets;
-    private List<DocumentReferenceDto> references;
+  private Long id;
+  @NotBlank private String title;
+  private String description;
+  private LocalDateTime created;
+  private LocalDateTime lastUpdated;
+  private Epic epic;
+  private List<Label> labels;
+  private List<Asset> assets;
+  private List<DocumentReferenceDto> references;
 }

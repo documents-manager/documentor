@@ -20,48 +20,46 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @QuarkusTestResource(parallel = true, value = MinioTestResource.class)
 class AssetResourceTest {
 
-
-    @Test
-    @Order(1)
-    void uploadFile() throws IOException {
-        try (InputStream inputStream = getClass().getResourceAsStream("/index.html")) {
-            given()
-                    .formParam("filename", "index.html")
-                    .formParam("mimetype", "text/html")
-                    .multiPart("file", inputStream, "text/html")
-                    .when()
-                    .post("documents/3/assets")
-                    .then()
-                    .statusCode(200)
-                    .log()
-                    .all()
-                    .extract()
-                    .body()
-                    .path("id");
-        }
+  @Test
+  @Order(1)
+  void uploadFile() throws IOException {
+    try (final InputStream inputStream = getClass().getResourceAsStream("/index.html")) {
+      given()
+          .formParam("filename", "index.html")
+          .formParam("mimetype", "text/html")
+          .multiPart("file", inputStream, "text/html")
+          .when()
+          .post("documents/3/assets")
+          .then()
+          .statusCode(200)
+          .log()
+          .all()
+          .extract()
+          .body()
+          .path("id");
     }
+  }
 
-    @Test
-    @Order(2)
-    void downloadFile() {
-        var byteArray = given()
-                .get("documents/1/assets/1")
-                .then()
-                .log().ifValidationFails()
-                .header("Content-Type", "application/pdf")
-                .header("Content-Disposition", matchesPattern("attachment;filename=.+"))
-                .extract()
-                .asByteArray();
-
-        assertEquals(9243, byteArray.length);
-    }
-
-    @Test
-    @Order(3)
-    void deleteFile() {
+  @Test
+  @Order(2)
+  void downloadFile() {
+    final var byteArray =
         given()
-                .delete("documents/1/assets/1")
-                .then()
-                .statusCode(204);
-    }
+            .get("documents/1/assets/1")
+            .then()
+            .log()
+            .ifValidationFails()
+            .header("Content-Type", "application/pdf")
+            .header("Content-Disposition", matchesPattern("attachment;filename=.+"))
+            .extract()
+            .asByteArray();
+
+    assertEquals(9243, byteArray.length);
+  }
+
+  @Test
+  @Order(3)
+  void deleteFile() {
+    given().delete("documents/1/assets/1").then().statusCode(204);
+  }
 }

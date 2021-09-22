@@ -18,59 +18,61 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Path("documents")
 @Produces(APPLICATION_JSON)
 public class DocumentResource {
-    @Inject
-    DocumentService documentService;
+  @Inject DocumentService documentService;
 
-    @Inject
-    DocumentMapper mapper;
+  @Inject DocumentMapper mapper;
 
-    @GET
-    @Transactional
-    public List<DocumentDto> getAll(@QueryParam("page") @DefaultValue("0") int page, @QueryParam("pageSize") @DefaultValue("20") int pageSize) {
-        return documentService.list(page, pageSize)
-                .map(document -> mapper.toDto(document))
-                .collect(Collectors.toList());
-    }
+  @GET
+  @Transactional
+  public List<DocumentDto> getAll(
+      @QueryParam("page") @DefaultValue("0") final int page,
+      @QueryParam("pageSize") @DefaultValue("20") final int pageSize) {
+    return documentService
+        .list(page, pageSize)
+        .map(document -> mapper.toDto(document))
+        .collect(Collectors.toList());
+  }
 
-    @GET
-    @Path("{id}")
-    @Transactional
-    public DocumentDto getById(@PathParam("id") Long id) {
-        return documentService
-                .findByIdOptional(id)
-                .map(document -> mapper.toDto(document))
-                .orElseThrow(() -> new DocumentNotFoundException(id));
-    }
+  @GET
+  @Path("{id}")
+  @Transactional
+  public DocumentDto getById(@PathParam("id") final Long id) {
+    return documentService
+        .findByIdOptional(id)
+        .map(document -> mapper.toDto(document))
+        .orElseThrow(() -> new DocumentNotFoundException(id));
+  }
 
-    @POST
-    @Transactional
-    public Response create(DocumentDto documentDto) {
-        var document = mapper.fromDto(documentDto);
-        documentService.add(document);
-        return Response.created(URI.create("/documents/" + document.getId())).build();
-    }
+  @Consumes("/")
+  @POST
+  @Transactional
+  public Response create(final DocumentDto documentDto) {
+    final var document = mapper.fromDto(documentDto);
+    documentService.add(document);
+    return Response.created(URI.create("/documents/" + document.getId())).build();
+  }
 
-    @PUT
-    @Path("{id}")
-    @Transactional
-    @Consumes(APPLICATION_JSON)
-    public DocumentDto updateDocument(@PathParam("id") Long id, DocumentDto documentDto) {
-        return documentService
-                .findByIdOptional(id)
-                .map(
-                        documentToUpdate -> {
-                            var documentUpdated = mapper.fromDto(documentDto);
-                            mapper.merge(documentToUpdate, documentUpdated);
-                            return mapper.toDto(documentToUpdate);
-                        })
-                .orElseThrow(() -> new DocumentNotFoundException(documentDto.getId()));
-    }
+  @PUT
+  @Path("{id}")
+  @Transactional
+  @Consumes(APPLICATION_JSON)
+  public DocumentDto updateDocument(@PathParam("id") final Long id, final DocumentDto documentDto) {
+    return documentService
+        .findByIdOptional(id)
+        .map(
+            documentToUpdate -> {
+              final var documentUpdated = mapper.fromDto(documentDto);
+              mapper.merge(documentToUpdate, documentUpdated);
+              return mapper.toDto(documentToUpdate);
+            })
+        .orElseThrow(() -> new DocumentNotFoundException(documentDto.getId()));
+  }
 
-    @DELETE
-    @Path("{id}")
-    @Transactional
-    public Response deleteById(@PathParam("id") Long id) {
-        documentService.deleteById(id);
-        return Response.noContent().build();
-    }
+  @DELETE
+  @Path("{id}")
+  @Transactional
+  public Response deleteById(@PathParam("id") final Long id) {
+    documentService.deleteById(id);
+    return Response.noContent().build();
+  }
 }

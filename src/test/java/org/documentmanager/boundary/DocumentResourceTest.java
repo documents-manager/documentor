@@ -18,66 +18,65 @@ import static org.hamcrest.Matchers.*;
 @QuarkusTestResource(parallel = true, value = MinioTestResource.class)
 class DocumentResourceTest {
 
-    @Test
-    @Order(1)
-    void getAll() {
-        given()
-                .when().get("/documents")
-                .then()
-                .statusCode(200)
-                .log().ifValidationFails()
-                .body("$.size", is(3));
-    }
+  @Test
+  @Order(1)
+  void getAll() {
+    given()
+        .when()
+        .get("/documents")
+        .then()
+        .statusCode(200)
+        .log()
+        .ifValidationFails()
+        .body("$.size", is(3));
+  }
 
-    @Test
-    @Order(2)
-    void getById() {
-        given()
-                .when()
-                .get("/documents/1")
-                .then()
-                .statusCode(200)
-                .body("id", is(1))
-                .body("title", is(not(emptyOrNullString())))
-                .body("description", is(not(emptyOrNullString())))
-                .body("created", notNullValue())
-                .body("lastUpdated", notNullValue());
-    }
+  @Test
+  @Order(2)
+  void getById() {
+    given()
+        .when()
+        .get("/documents/1")
+        .then()
+        .statusCode(200)
+        .body("id", is(1))
+        .body("title", is(not(emptyOrNullString())))
+        .body("description", is(not(emptyOrNullString())))
+        .body("created", notNullValue())
+        .body("lastUpdated", notNullValue());
+  }
 
-    @Test
-    @Order(3)
-    void create() {
-        given()
-                .when()
-                .log().ifValidationFails()
-                .header("Content-Type", MediaType.APPLICATION_JSON)
-                .body("{\"title\": \"Aha\", \"description\": \"Take on me\"}")
-                .post("/documents")
-                .then()
-                .statusCode(201);
-    }
+  @Test
+  @Order(3)
+  void create() {
+    given()
+        .when()
+        .log()
+        .ifValidationFails()
+        .header("Content-Type", MediaType.APPLICATION_JSON)
+        .body("{\"title\": \"Aha\", \"description\": \"Take on me\"}")
+        .post("/documents")
+        .then()
+        .statusCode(201);
+  }
 
-    @Test
-    @Order(4)
-    void delete() {
-        given()
-                .when()
-                .delete("/documents/3")
-                .then()
-                .statusCode(204);
-    }
+  @Test
+  @Order(4)
+  void delete() {
+    given().when().delete("/documents/3").then().statusCode(204);
+  }
 
-    @Test
-    @Order(5)
-    void updateDocument() {
-        given()
-                .when()
-                .header("Content-Type", MediaType.APPLICATION_JSON)
-                .body("{\"title\": \"Dire Straits\", \"description\": \"Love over gold\"}")
-                .put("/documents/1")
-                .then()
-                .statusCode(200)
-                .body("title", is("Dire Straits"))
-                .body("description", is("Love over gold"));
-    }
+  @Test
+  @Order(5)
+  void updateDocument() {
+    given()
+        .when()
+        .header("Content-Type", MediaType.APPLICATION_JSON)
+        .body("{\"title\": \"Dire Straits\", \"description\": \"Love over gold\"}")
+        .put("/documents/1")
+        .then()
+        .statusCode(200)
+        .body("title", is("Dire Straits"))
+        .body("description", is("Love over gold"));
+  }
 }

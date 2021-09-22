@@ -8,30 +8,30 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 class DocumentTest {
 
-    @Test
-    void checkValidDocument() {
-        final var document = EntityFixture.createBasicDocument();
-        assertThat(document, validateTrue());
-    }
+  @Test
+  void checkValidDocument() {
+    final var document = EntityFixture.createBasicDocument();
+    assertThat(document, validateTrue());
+  }
 
-    @Test
-    void checkInvalidDocumentMissingVersion() {
-        final var document = EntityFixture.createBasicDocument();
-        document.setVersion(null);
-        assertThat(document, validateFalse());
-    }
+  @Test
+  void checkInvalidDocumentMissingVersion() {
+    final var document = EntityFixture.createBasicDocument();
+    document.setVersion(null);
+    assertThat(document, validateFalse());
+  }
 
-    @Test
-    void checkInvalidDocumentTitle() {
-        final var document = EntityFixture.createBasicDocument();
-        document.setTitle(null);
-        assertThat(document, validateFalse());
-    }
+  @Test
+  void checkInvalidDocumentTitle() {
+    final var document = EntityFixture.createBasicDocument();
+    document.setTitle(null);
+    assertThat(document, validateFalse());
+  }
 
-    @Test
-    void checkInvalidDocumentBlankTitle() {
-        final var document = EntityFixture.createBasicDocument();
-        document.setTitle("");
-        assertThat(document, validateFalse());
-    }
+  @Test
+  void checkInvalidDocumentBlankTitle() {
+    final var document = EntityFixture.createBasicDocument();
+    document.setTitle("");
+    assertThat(document, validateFalse());
+  }
 }

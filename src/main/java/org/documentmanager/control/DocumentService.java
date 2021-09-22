@@ -10,22 +10,22 @@ import java.util.stream.Stream;
 @ApplicationScoped
 public class DocumentService {
 
-    public Optional<Document> findByIdOptional(Long id) {
-        return Document.findByIdOptional(id);
-    }
+  public Optional<Document> findByIdOptional(final Long id) {
+    return Document.findByIdOptional(id);
+  }
 
-    public Stream<Document> list(int pageIndex, int pageSize) {
-        return Document.findAll().page(pageIndex, pageSize).stream();
-    }
+  public Stream<Document> list(final int pageIndex, final int pageSize) {
+    return Document.findAll().page(pageIndex, pageSize).stream();
+  }
 
-    public void add(Document document) {
-        document.persist();
-    }
+  public void add(final Document document) {
+    document.persist();
+  }
 
-    public void deleteById(Long id) {
-        var result = Document.deleteById(id);
-        if (!result) {
-            throw new DocumentNotDeletableException();
-        }
+  public void deleteById(final Long id) {
+    final var result = Document.deleteById(id);
+    if (!result) {
+      throw new DocumentNotDeletableException();
     }
+  }
 }

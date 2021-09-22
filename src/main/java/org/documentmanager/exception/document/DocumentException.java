@@ -1,23 +1,27 @@
 package org.documentmanager.exception.document;
 
 public class DocumentException extends RuntimeException {
-    public DocumentException() {
-        super();
-    }
+  public DocumentException() {
+    super();
+  }
 
-    public DocumentException(String message) {
-        super(message);
-    }
+  public DocumentException(final String message) {
+    super(message);
+  }
 
-    public DocumentException(String message, Throwable cause) {
-        super(message, cause);
-    }
+  public DocumentException(final String message, final Throwable cause) {
+    super(message, cause);
+  }
 
-    public DocumentException(Throwable cause) {
-        super(cause);
-    }
+  public DocumentException(final Throwable cause) {
+    super(cause);
+  }
 
-    protected DocumentException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-        super(message, cause, enableSuppression, writableStackTrace);
-    }
+  protected DocumentException(
+      final String message,
+      final Throwable cause,
+      final boolean enableSuppression,
+      final boolean writableStackTrace) {
+    super(message, cause, enableSuppression, writableStackTrace);
+  }
 }

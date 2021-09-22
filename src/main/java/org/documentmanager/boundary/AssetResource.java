@@ -17,65 +17,59 @@ import java.security.NoSuchAlgorithmException;
 @Path("documents/{id}/assets")
 public class AssetResource {
 
-    @Inject
-    S3Service s3Service;
+  @Inject S3Service s3Service;
 
-    @Inject
-    AssetService assetService;
+  @Inject AssetService assetService;
 
-    @javax.ws.rs.PathParam("id")
-    Long id;
+  @javax.ws.rs.PathParam("id")
+  Long id;
 
-    @POST
-    @Consumes(MediaType.MULTIPART_FORM_DATA)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Uni<Response> uploadFile(
-            @MultipartForm FormData formData,
-            @HeaderParam("Content-Length") Long contentLength,
-            @HeaderParam("Accept-Language") String language
-    ) throws IOException, NoSuchAlgorithmException {
-        if (
-                formData.getFileName() == null || formData.getFileName().isEmpty() ||
-                        formData.getMimeType() == null || formData.getMimeType().isEmpty()
-        ) {
-            return Uni.createFrom().item(Response.status(Status.BAD_REQUEST).build());
-        }
-
-        return assetService.addAssetToDocument(id, formData, language, contentLength)
-                .onItem()
-                .transform(asset -> Response.ok(asset).build());
+  @POST
+  @Consumes(MediaType.MULTIPART_FORM_DATA)
+  @Produces(MediaType.APPLICATION_JSON)
+  public Uni<Response> uploadFile(
+      @MultipartForm final FormData formData,
+      @HeaderParam("Content-Length") final Long contentLength,
+      @HeaderParam("Accept-Language") final String language)
+      throws IOException, NoSuchAlgorithmException {
+    if (formData.getFileName() == null
+        || formData.getFileName().isEmpty()
+        || formData.getMimeType() == null
+        || formData.getMimeType().isEmpty()) {
+      return Uni.createFrom().item(Response.status(Status.BAD_REQUEST).build());
     }
 
-    @GET
-    @Path("{objectKey}")
-    @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Uni<Response> downloadFile(@javax.ws.rs.PathParam("objectKey") String objectKey) {
-        return s3Service.getObject(objectKey)
-                .onItem()
-                .transform(res -> {
-                            final var file = res.getFile();
-                            final var contentType = res.getObject().contentType();
-                            return Response.ok(file)
-                                    .header("Content-Disposition", "attachment;filename=" + file.getName())
-                                    .header("Content-Type", contentType)
-                                    .build();
-                        }
-                );
-    }
+    return assetService
+        .addAssetToDocument(id, formData, language, contentLength)
+        .onItem()
+        .transform(asset -> Response.ok(asset).build());
+  }
 
-    @DELETE
-    @Path("{objectKey}")
-    @Produces(MediaType.APPLICATION_JSON)
-    public Uni<Response> deleteFile(@PathParam("objectKey") Long objectKey) {
-        return assetService.deleteAsset(objectKey)
-                .onItem()
-                .transform(res -> Response.noContent().build());
-    }
+  @GET
+  @Path("{objectKey}")
+  @Produces(MediaType.APPLICATION_OCTET_STREAM)
+  public Uni<Response> downloadFile(@javax.ws.rs.PathParam("objectKey") final String objectKey) {
+    return s3Service
+        .getObject(objectKey)
+        .onItem()
+        .transform(
+            res -> {
+              final var file = res.getFile();
+              final var contentType = res.getObject().contentType();
+              return Response.ok(file)
+                  .header("Content-Disposition", "attachment;filename=" + file.getName())
+                  .header("Content-Type", contentType)
+                  .build();
+            });
+  }
 
-    /*@GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Uni<List<FileObject>> listFiles() {
-        return s3Service.listFiles();
-    }
-     */
+  @DELETE
+  @Path("{objectKey}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public Uni<Response> deleteFile(@PathParam("objectKey") final Long objectKey) {
+    return assetService
+        .deleteAsset(objectKey)
+        .onItem()
+        .transform(res -> Response.noContent().build());
+  }
 }

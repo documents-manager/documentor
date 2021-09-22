@@ -11,19 +11,18 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
 @Mapper(
-        componentModel = "cdi",
-        nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-
+    componentModel = "cdi",
+    nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
 public interface DocumentMapper {
-    DocumentDto toDto(Document document);
+  DocumentDto toDto(Document document);
 
-    DocumentLinkDto toLinkDto(Document document);
+  DocumentLinkDto toLinkDto(Document document);
 
-    @Mapping(target = "id", ignore = true)
-    Document fromDto(DocumentDto documentDto);
+  @Mapping(target = "id", ignore = true)
+  Document fromDto(DocumentDto documentDto);
 
-    DocumentReferenceDto toDto(DocumentReference documentReference);
+  DocumentReferenceDto toDto(DocumentReference documentReference);
 
-    @Mapping(target = "id", ignore = true)
-    void merge(@MappingTarget Document target, Document source);
+  @Mapping(target = "id", ignore = true)
+  void merge(@MappingTarget Document target, Document source);
 }
