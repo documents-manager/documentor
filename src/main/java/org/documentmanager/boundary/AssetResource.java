@@ -48,7 +48,7 @@ public class AssetResource {
   @GET
   @Path("{objectKey}")
   @Produces(MediaType.APPLICATION_OCTET_STREAM)
-  public Uni<Response> downloadFile(@javax.ws.rs.PathParam("objectKey") final String objectKey) {
+  public Uni<Response> downloadFile(@PathParam("objectKey") final String objectKey) {
     return s3Service
         .getObject(objectKey)
         .onItem()

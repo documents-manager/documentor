@@ -1,33 +1,33 @@
 -- Set up some testing data
 
-insert into epic (id, name, VERSION)
+insert into epic (id, name, version)
 values (1, 'Epic 1', 1);
 
 
-insert into epic (id, name, VERSION)
+insert into epic (id, name, version)
 values (2, 'Epic 2', 1);
 
 
 insert into document (id, created, description, lastupdated,
-                      title, VERSION, epic_id)
+                      title, version, epic_id)
 values (1, now(), 'Some Stupid description', now(), 'Document 1', 1, 1);
 
 
 insert into document (id, created, description, lastupdated,
-                      title, VERSION, epic_id)
+                      title, version, epic_id)
 values (2, now(), 'Some Stupid description', now(), 'Document 2', 1, 2);
 
 
 insert into document (id, created, description, lastupdated,
-                      title, VERSION, epic_id)
+                      title, version, epic_id)
 values (3, now(), 'Some Stupid description', now(), 'Document 3', 1, 1);
 
 
-insert into label (id, name, VERSION)
+insert into label (id, name, version)
 values (1, 'Label 1', 1);
 
 
-insert into label (id, name, VERSION)
+insert into label (id, name, version)
 values (2, 'Label 2', 1);
 
 
