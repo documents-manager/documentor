@@ -1,6 +1,9 @@
 package org.documentmanager.entity.db;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.json.bind.annotation.JsonbTransient;
@@ -15,36 +18,36 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 public class DocumentReference implements Serializable {
-    @EmbeddedId
-    @JsonbTransient
-    @NotNull
-    private DocumentReferenceId id;
-    @ManyToOne
-    @MapsId("sourceId")
-    @JoinColumn(name = "source_id")
-    @NotNull
-    @JsonbTransient
-    private Document sourceDocument;
-    @ManyToOne
-    @MapsId("targetId")
-    @JoinColumn(name = "target_id")
-    @NotNull
-    private Document targetDocument;
-    @Enumerated(EnumType.STRING)
-    @NotNull
-    private DocumentReferenceType referenceType;
+  @EmbeddedId @JsonbTransient @NotNull private DocumentReferenceId id;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        DocumentReference that = (DocumentReference) o;
+  @ManyToOne
+  @MapsId("sourceId")
+  @JoinColumn(name = "source_id")
+  @NotNull
+  @JsonbTransient
+  private Document sourceDocument;
 
-        return Objects.equals(id, that.id);
-    }
+  @ManyToOne
+  @MapsId("targetId")
+  @JoinColumn(name = "target_id")
+  @NotNull
+  private Document targetDocument;
 
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(id);
-    }
+  @Enumerated(EnumType.STRING)
+  @NotNull
+  private DocumentReferenceType referenceType;
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    final DocumentReference that = (DocumentReference) o;
+
+    return Objects.equals(id, that.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(id);
+  }
 }

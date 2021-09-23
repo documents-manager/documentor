@@ -1,37 +1,20 @@
 package org.documentmanager.entity.s3;
 
-
+import lombok.Data;
 import software.amazon.awssdk.services.s3.model.S3Object;
 
-public class FileObject {
-    private String objectKey;
+@Data
+public final class FileObject {
+  private String objectKey;
 
-    private Long size;
+  private Long size;
 
-    public static FileObject from(S3Object s3Object) {
-        final var file = new FileObject();
-        if (s3Object != null) {
-            file.setObjectKey(s3Object.key());
-            file.setSize(s3Object.size());
-        }
-        return file;
+  public static FileObject from(final S3Object s3Object) {
+    final var file = new FileObject();
+    if (s3Object != null) {
+      file.setObjectKey(s3Object.key());
+      file.setSize(s3Object.size());
     }
-
-    public String getObjectKey() {
-        return objectKey;
-    }
-
-    public Long getSize() {
-        return size;
-    }
-
-    public FileObject setObjectKey(String objectKey) {
-        this.objectKey = objectKey;
-        return this;
-    }
-
-    public FileObject setSize(Long size) {
-        this.size = size;
-        return this;
-    }
+    return file;
+  }
 }
