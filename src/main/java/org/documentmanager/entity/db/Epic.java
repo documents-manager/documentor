@@ -23,7 +23,7 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @SequenceGenerator(name = "epicseq", sequenceName = "epicseq", allocationSize = 1, initialValue = 4)
-public class Epic extends PanacheEntityBase implements Serializable {
+public final class Epic extends PanacheEntityBase implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "epicseq")
   @Schema(type = SchemaType.INTEGER, example = "0")
@@ -41,8 +41,12 @@ public class Epic extends PanacheEntityBase implements Serializable {
 
   @Override
   public boolean equals(final Object o) {
-    if (this == o) return true;
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+      return false;
+    }
     final Epic epic = (Epic) o;
 
     return Objects.equals(id, epic.id);

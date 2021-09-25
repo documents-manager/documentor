@@ -27,7 +27,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 @Path("documents")
 @Produces(APPLICATION_JSON)
 @Tag(name = "Documents")
-public class DocumentResource {
+public final class DocumentResource {
   @Inject DocumentService documentService;
 
   @Inject DocumentMapper mapper;

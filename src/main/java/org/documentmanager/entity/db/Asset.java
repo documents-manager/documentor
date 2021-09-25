@@ -28,7 +28,7 @@ import java.util.Objects;
     sequenceName = "assetseq",
     allocationSize = 1,
     initialValue = 4)
-public class Asset extends PanacheEntityBase implements Serializable {
+public final class Asset extends PanacheEntityBase implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assetseq")
   @Schema(type = SchemaType.INTEGER, example = "12345", readOnly = true)
@@ -75,8 +75,12 @@ public class Asset extends PanacheEntityBase implements Serializable {
 
   @Override
   public boolean equals(final Object o) {
-    if (this == o) return true;
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+      return false;
+    }
     final Asset asset = (Asset) o;
 
     return Objects.equals(id, asset.id);

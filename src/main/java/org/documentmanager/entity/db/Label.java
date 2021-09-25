@@ -25,7 +25,7 @@ import java.util.Objects;
     sequenceName = "labelseq",
     allocationSize = 1,
     initialValue = 4)
-public class Label extends PanacheEntityBase implements Serializable {
+public final class Label extends PanacheEntityBase implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "labelseq")
   @Schema(type = SchemaType.INTEGER, example = "3")
@@ -42,8 +42,12 @@ public class Label extends PanacheEntityBase implements Serializable {
 
   @Override
   public boolean equals(final Object o) {
-    if (this == o) return true;
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+      return false;
+    }
     final Label label = (Label) o;
 
     return Objects.equals(id, label.id);
