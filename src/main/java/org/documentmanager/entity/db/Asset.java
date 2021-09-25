@@ -22,53 +22,60 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @SequenceGenerator(
-        name = "assetseq",
-        sequenceName = "assetseq",
-        allocationSize = 1,
-        initialValue = 4
-)
+    name = "assetseq",
+    sequenceName = "assetseq",
+    allocationSize = 1,
+    initialValue = 4)
 public class Asset extends PanacheEntityBase implements Serializable {
-    @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assetseq")
-    private Long id;
-    @Column(updatable = false)
-    @NotBlank
-    private String fileName;
-    @Column(updatable = false)
-    @NotBlank
-    private String mimeType;
-    @Column(updatable = false)
-    @NotNull
-    private Long fileSize;
-    @Column(updatable = false)
-    @NotBlank
-    private String hash;
-    @Column(columnDefinition = "TIMESTAMP", updatable = false)
-    @CreationTimestamp
-    @NotNull
-    private LocalDateTime created;
-    @JsonbTransient
-    @Column(updatable = false)
-    @Lob
-    @Type(type = "org.hibernate.type.TextType")
-    private String ocrContent;
-    @JsonbTransient
-    @JoinColumn(updatable = false)
-    @ManyToOne
-    @NotNull
-    private Document document;
+  @Id
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assetseq")
+  private Long id;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        Asset asset = (Asset) o;
+  @Column(updatable = false)
+  @NotBlank
+  private String fileName;
 
-        return Objects.equals(id, asset.id);
-    }
+  @Column(updatable = false)
+  @NotBlank
+  private String mimeType;
 
-    @Override
-    public int hashCode() {
-        return 469637925;
-    }
+  @Column(updatable = false)
+  @NotNull
+  private Long fileSize;
+
+  @Column(updatable = false)
+  @NotBlank
+  private String hash;
+
+  @Column(columnDefinition = "TIMESTAMP", updatable = false)
+  @CreationTimestamp
+  @NotNull
+  private LocalDateTime created;
+
+  @JsonbTransient
+  @Column(updatable = false)
+  @Lob
+  @Type(type = "org.hibernate.type.TextType")
+  private String ocrContent;
+
+  @JsonbTransient
+  @JoinColumn(updatable = false)
+  @ManyToOne
+  @NotNull
+  @ToString.Exclude
+  private Document document;
+
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    final Asset asset = (Asset) o;
+
+    return Objects.equals(id, asset.id);
+  }
+
+  @Override
+  public int hashCode() {
+    return 469637925;
+  }
 }

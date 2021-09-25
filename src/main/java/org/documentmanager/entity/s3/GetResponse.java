@@ -7,11 +7,11 @@ import java.io.File;
 
 @Data
 public class GetResponse {
-    private GetObjectResponse object;
-    private File file;
+  private GetObjectResponse object;
+  private File file;
 
-    public GetResponse(GetObjectResponse object, File file) {
-        this.object = object;
-        this.file = file;
-    }
+  public GetResponse(final GetObjectResponse object, final File file) {
+    this.object = object;
+    this.file = file;
+  }
 }

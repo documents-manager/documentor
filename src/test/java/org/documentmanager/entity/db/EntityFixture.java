@@ -1,80 +1,90 @@
 package org.documentmanager.entity.db;
 
-import java.lang.ref.Reference;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
 public class EntityFixture {
-    public static Label createLabel() {
-        final var label = new Label();
-        label.setId(10L);
-        label.setName("SOME NAME");
-        label.setVersion(1);
-        label.setAssociatedDocuments(null);
-        return label;
-    }
 
-    public static Epic createEpic() {
-        final var epic = new Epic();
-        epic.setId(10L);
-        epic.setName("SOME NAME");
-        epic.setVersion(1);
-        epic.setAssociatedDocuments(null);
-        return epic;
-    }
+  public static final long EPIC_ID = 10L;
+  public static final long LABEL_ID = 10L;
+  public static final long ASSET_ID = 10L;
+  public static final long FILE_SIZE = 8L;
+  public static final long DOCUMENT_ID = 10L;
+  public static final long SOURCE_ID = 10L;
+  public static final long TARGET_ID = 11L;
 
-    public static Asset createAsset() {
-        final var asset = new Asset();
-        asset.setCreated(LocalDateTime.now());
-        asset.setFileName("test.jpg");
-        asset.setHash("abc");
-        asset.setId(10L);
-        asset.setMimeType("image/jpg");
-        asset.setFileSize(8L);
-        return asset;
-    }
+  private EntityFixture() {}
 
-    public static Document createBasicDocument() {
-        final var document = new Document();
-        document.setId(10L);
-        document.setCreated(LocalDateTime.now());
-        document.setLastUpdated(LocalDateTime.now());
-        document.setDescription("Some description");
-        document.setTitle("Some Title");
-        document.setVersion(1);
-        return document;
-    }
+  public static Label createLabel() {
+    final var label = new Label();
+    label.setId(LABEL_ID);
+    label.setName("SOME NAME");
+    label.setVersion(1);
+    label.setAssociatedDocuments(null);
+    return label;
+  }
 
-    public static Document createDocumentWithAsset() {
-        final var document = createBasicDocument();
-        final var asset = createAsset();
-        document.setAssets(Collections.singletonList(asset));
-        asset.setDocument(document);
-        return document;
-    }
+  public static Epic createEpic() {
+    final var epic = new Epic();
+    epic.setId(EPIC_ID);
+    epic.setName("SOME NAME");
+    epic.setVersion(1);
+    epic.setAssociatedDocuments(null);
+    return epic;
+  }
 
-    public static Asset createAssetWithDocument() {
-        return createDocumentWithAsset().getAssets().get(0);
-    }
+  public static Asset createAsset() {
+    final var asset = new Asset();
+    asset.setCreated(LocalDateTime.now());
+    asset.setFileName("test.jpg");
+    asset.setHash("abc");
+    asset.setId(ASSET_ID);
+    asset.setMimeType("image/jpg");
+    asset.setFileSize(FILE_SIZE);
+    return asset;
+  }
 
-    public static DocumentReferenceId createDocumentReferenceId() {
-        final var documentReferenceId = new DocumentReferenceId();
-        documentReferenceId.setSourceId(10L);
-        documentReferenceId.setTargetId(11L);
-        return documentReferenceId;
-    }
+  public static Document createBasicDocument() {
+    final var document = new Document();
+    document.setId(DOCUMENT_ID);
+    document.setCreated(LocalDateTime.now());
+    document.setLastUpdated(LocalDateTime.now());
+    document.setDescription("Some description");
+    document.setTitle("Some Title");
+    document.setVersion(1);
+    return document;
+  }
 
-    public static DocumentReference createDocumentReference() {
-        final var documentReference = new DocumentReference();
-        documentReference.setReferenceType(DocumentReferenceType.RELATED);
-        final var sourceDoc = createBasicDocument();
-        sourceDoc.setId(10L);
-        final var targetDoc = createBasicDocument();
-        targetDoc.setId(11L);
-        final var documentReferenceId = createDocumentReferenceId();
-        documentReference.setId(documentReferenceId);
-        documentReference.setSourceDocument(sourceDoc);
-        documentReference.setTargetDocument(targetDoc);
-        return documentReference;
-    }
+  public static Document createDocumentWithAsset() {
+    final var document = createBasicDocument();
+    final var asset = createAsset();
+    document.setAssets(Collections.singletonList(asset));
+    asset.setDocument(document);
+    return document;
+  }
+
+  public static Asset createAssetWithDocument() {
+    return createDocumentWithAsset().getAssets().get(0);
+  }
+
+  public static DocumentReferenceId createDocumentReferenceId() {
+    final var documentReferenceId = new DocumentReferenceId();
+    documentReferenceId.setSourceId(SOURCE_ID);
+    documentReferenceId.setTargetId(TARGET_ID);
+    return documentReferenceId;
+  }
+
+  public static DocumentReference createDocumentReference() {
+    final var documentReference = new DocumentReference();
+    documentReference.setReferenceType(DocumentReferenceType.RELATED);
+    final var sourceDoc = createBasicDocument();
+    sourceDoc.setId(SOURCE_ID);
+    final var targetDoc = createBasicDocument();
+    targetDoc.setId(TARGET_ID);
+    final var documentReferenceId = createDocumentReferenceId();
+    documentReference.setId(documentReferenceId);
+    documentReference.setSourceDocument(sourceDoc);
+    documentReference.setTargetDocument(targetDoc);
+    return documentReference;
+  }
 }

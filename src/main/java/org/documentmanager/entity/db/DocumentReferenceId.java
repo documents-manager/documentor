@@ -1,6 +1,9 @@
 package org.documentmanager.entity.db;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.Hibernate;
 
 import javax.persistence.Column;
@@ -15,27 +18,28 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 public class DocumentReferenceId implements Serializable {
-    @NotNull
-    @Column(name = "source_id")
-    private Long sourceId;
-    @NotNull
-    @Column(name = "target_id")
-    private Long targetId;
+  @NotNull
+  @Column(name = "source_id")
+  private Long sourceId;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        DocumentReferenceId that = (DocumentReferenceId) o;
+  @NotNull
+  @Column(name = "target_id")
+  private Long targetId;
 
-        if (!Objects.equals(sourceId, that.sourceId)) return false;
-        return Objects.equals(targetId, that.targetId);
-    }
+  @Override
+  public boolean equals(final Object o) {
+    if (this == o) return true;
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    final DocumentReferenceId that = (DocumentReferenceId) o;
 
-    @Override
-    public int hashCode() {
-        int result = Objects.hashCode(sourceId);
-        result = 31 * result + (Objects.hashCode(targetId));
-        return result;
-    }
+    if (!Objects.equals(sourceId, that.sourceId)) return false;
+    return Objects.equals(targetId, that.targetId);
+  }
+
+  @Override
+  public int hashCode() {
+    int result = Objects.hashCode(sourceId);
+    result = 31 * result + (Objects.hashCode(targetId));
+    return result;
+  }
 }
