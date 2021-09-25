@@ -2,6 +2,8 @@ package org.documentmanager.entity.db;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.*;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.Hibernate;
 
 import javax.json.bind.annotation.JsonbTransient;
@@ -23,11 +25,12 @@ import java.util.Objects;
     sequenceName = "labelseq",
     allocationSize = 1,
     initialValue = 4)
-public class Label extends PanacheEntityBase implements Serializable {
+public final class Label extends PanacheEntityBase implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "labelseq")
+  @Schema(type = SchemaType.INTEGER, example = "3")
   private Long id;
-
+  @Schema(type = SchemaType.STRING, example = "Bank")
   @NotBlank private String name;
 
   @ManyToMany(mappedBy = "labels")
@@ -39,8 +42,12 @@ public class Label extends PanacheEntityBase implements Serializable {
 
   @Override
   public boolean equals(final Object o) {
-    if (this == o) return true;
-    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) {
+      return false;
+    }
     final Label label = (Label) o;
 
     return Objects.equals(id, label.id);

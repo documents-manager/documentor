@@ -25,7 +25,7 @@ public class S3ExceptionMapper implements ExceptionMapper<S3Exception> {
 
   @Data
   @EqualsAndHashCode(callSuper = false)
-  static class S3Error extends Error {
+  public static class S3Error extends Error {
     private String serviceName;
 
     @SuppressWarnings("CdiInjectionPointsInspection")
