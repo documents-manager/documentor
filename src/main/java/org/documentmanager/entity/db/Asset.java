@@ -2,6 +2,8 @@ package org.documentmanager.entity.db;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.*;
+import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
@@ -29,27 +31,33 @@ import java.util.Objects;
 public class Asset extends PanacheEntityBase implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assetseq")
+  @Schema(type = SchemaType.INTEGER, example = "12345", readOnly = true)
   private Long id;
 
   @Column(updatable = false)
   @NotBlank
+  @Schema(type = SchemaType.STRING, example = "file.pdf", readOnly = true)
   private String fileName;
 
   @Column(updatable = false)
   @NotBlank
+  @Schema(type = SchemaType.STRING, example = "application/pdf", readOnly = true)
   private String mimeType;
 
   @Column(updatable = false)
   @NotNull
+  @Schema(type = SchemaType.INTEGER, example = "12345", readOnly = true)
   private Long fileSize;
 
   @Column(updatable = false)
   @NotBlank
+  @Schema(type = SchemaType.STRING, example = "abcdefghaicjldjf", readOnly = true)
   private String hash;
 
   @Column(columnDefinition = "TIMESTAMP", updatable = false)
   @CreationTimestamp
   @NotNull
+  @Schema(type = SchemaType.STRING, example = "2021-09-23T09:26:26.464Z", readOnly = true)
   private LocalDateTime created;
 
   @JsonbTransient

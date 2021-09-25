@@ -40,7 +40,7 @@ public final class DocumentExceptionMapper implements ExceptionMapper<DocumentEx
         .build();
   }
 
-  static class DocumentError extends Error {
+  public static class DocumentError extends Error {
     DocumentError(final String errorCode, final String errorMessage) {
       super(errorCode, errorMessage);
     }
