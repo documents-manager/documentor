@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
+import javax.transaction.Transactional;
 import javax.ws.rs.core.MediaType;
 
 import static io.restassured.RestAssured.given;
@@ -16,6 +17,7 @@ import static org.hamcrest.Matchers.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @QuarkusTest
 @QuarkusTestResource(parallel = true, value = MinioTestResource.class)
+@Transactional
 class DocumentResourceTest {
 
   @Test
@@ -72,8 +74,7 @@ class DocumentResourceTest {
     given()
         .when()
         .header("Content-Type", MediaType.APPLICATION_JSON)
-        .body("{\"title\": \"Dire Straits\", " +
-                "\"description\": \"Love over gold\"}")
+        .body("{\"title\": \"Dire Straits\", " + "\"description\": \"Love over gold\"}")
         .put("/documents/1")
         .then()
         .statusCode(200)

@@ -51,14 +51,14 @@ class AssetTest {
   @Test
   void checkInvalidAssetMissingMimetype() {
     final var asset = EntityFixture.createAsset();
-    asset.setMimeType(null);
+    asset.setContentType(null);
     assertThat(asset, validateFalse());
   }
 
   @Test
   void checkInvalidAssetBlankMimetype() {
     final var asset = EntityFixture.createAsset();
-    asset.setMimeType("");
+    asset.setContentType("");
     assertThat(asset, validateFalse());
   }
 

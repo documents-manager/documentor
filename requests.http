@@ -1,3 +1,51 @@
+POST http://localhost:8080/api/documents/3/assets
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="asset1.pdf"
+
+< ./src/main/resources/test-files/asset1.pdf
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="filename"
+
+ // value of param2
+asset1.pdf
+--WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="mimetype"
+
+ // value of param2
+application/pdf
+--WebAppBoundary
+
+###
+POST http://localhost:8080/api/documents/3/assets
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="asset2.jpg"
+
+< ./src/main/resources/test-files/asset2.jpg
+--WebAppBoundary--
+
+--WebAppBoundary
+Content-Disposition: form-data; name="filename"
+
+ // value of param2
+asset2.jpg
+--WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="mimetype"
+
+ // value of param2
+image/jpeg
+--WebAppBoundary
+
+###
 GET http://localhost:8080/api/documents
 Accept: application/json
 

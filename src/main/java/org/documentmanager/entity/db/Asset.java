@@ -14,12 +14,13 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Getter
 @Setter
-@ToString
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +29,7 @@ import java.util.Objects;
     sequenceName = "assetseq",
     allocationSize = 1,
     initialValue = 4)
-public final class Asset extends PanacheEntityBase implements Serializable {
+public class Asset extends PanacheEntityBase implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assetseq")
   @Schema(type = SchemaType.INTEGER, example = "12345", readOnly = true)
@@ -42,7 +43,7 @@ public final class Asset extends PanacheEntityBase implements Serializable {
   @Column(updatable = false)
   @NotBlank
   @Schema(type = SchemaType.STRING, example = "application/pdf", readOnly = true)
-  private String mimeType;
+  private String contentType;
 
   @Column(updatable = false)
   @NotNull
@@ -53,6 +54,10 @@ public final class Asset extends PanacheEntityBase implements Serializable {
   @NotBlank
   @Schema(type = SchemaType.STRING, example = "abcdefghaicjldjf", readOnly = true)
   private String hash;
+
+  @Column(updatable = false)
+  @Schema(type = SchemaType.STRING, example = "de", readOnly = true)
+  private String language;
 
   @Column(columnDefinition = "TIMESTAMP", updatable = false)
   @CreationTimestamp
@@ -72,6 +77,11 @@ public final class Asset extends PanacheEntityBase implements Serializable {
   @NotNull
   @ToString.Exclude
   private Document document;
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+  @JoinColumn(name = "asset_id")
+  @NotNull
+  private Set<Metadata> metadata = Collections.emptySet();
 
   @Override
   public boolean equals(final Object o) {

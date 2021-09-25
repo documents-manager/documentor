@@ -2,6 +2,7 @@ package org.documentmanager.boundary;
 
 import org.documentmanager.control.DocumentService;
 import org.documentmanager.entity.dto.DocumentDto;
+import org.documentmanager.entity.dto.DocumentListDto;
 import org.documentmanager.exception.document.DocumentNotFoundException;
 import org.documentmanager.exceptionmapper.DocumentExceptionMapper;
 import org.documentmanager.mapper.DocumentMapper;
@@ -42,7 +43,7 @@ public final class DocumentResource {
               mediaType = MediaType.APPLICATION_JSON,
               schema = @Schema(type = SchemaType.ARRAY, implementation = DocumentDto.class)))
   @Operation(summary = "List documents.", description = "Returns the currently stored documents.")
-  public List<DocumentDto> getAll(
+  public List<DocumentListDto> getAll(
       @Parameter(
               description = "The page index to retrieve the documents for.",
               example = "0",
@@ -59,7 +60,7 @@ public final class DocumentResource {
           final int pageSize) {
     return documentService
         .list(page, pageSize)
-        .map(document -> mapper.toDto(document))
+        .map(document -> mapper.toListDto(document))
         .collect(Collectors.toList());
   }
 

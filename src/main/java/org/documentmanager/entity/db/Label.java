@@ -25,13 +25,15 @@ import java.util.Objects;
     sequenceName = "labelseq",
     allocationSize = 1,
     initialValue = 4)
-public final class Label extends PanacheEntityBase implements Serializable {
+public class Label extends PanacheEntityBase implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "labelseq")
   @Schema(type = SchemaType.INTEGER, example = "3")
   private Long id;
+
   @Schema(type = SchemaType.STRING, example = "Bank")
-  @NotBlank private String name;
+  @NotBlank
+  private String name;
 
   @ManyToMany(mappedBy = "labels")
   @JsonbTransient

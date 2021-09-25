@@ -31,7 +31,8 @@ create table asset
     filename    varchar(255),
     filesize    bigint,
     hash        varchar(255),
-    mimetype    varchar(255),
+    contentType varchar(255),
+    language    varchar(255),
     ocrcontent  text,
     document_id bigint
         constraint fkqkj5kicyplem4ddnpu5g9baxc

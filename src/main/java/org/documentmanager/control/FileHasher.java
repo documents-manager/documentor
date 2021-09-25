@@ -8,7 +8,7 @@ import java.security.NoSuchAlgorithmException;
 
 @ApplicationScoped
 public class FileHasher {
-  String hashStream(final InputStream data) throws NoSuchAlgorithmException, IOException {
+  public String hashStream(final InputStream data) throws NoSuchAlgorithmException, IOException {
     final var digest = MessageDigest.getInstance("SHA-256");
 
     // Create byte array to read data in chunks

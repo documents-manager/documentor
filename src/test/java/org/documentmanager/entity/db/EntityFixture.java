@@ -39,8 +39,9 @@ public class EntityFixture {
     asset.setFileName("test.jpg");
     asset.setHash("abc");
     asset.setId(ASSET_ID);
-    asset.setMimeType("image/jpg");
+    asset.setContentType("image/jpg");
     asset.setFileSize(FILE_SIZE);
+    asset.setLanguage("de");
     return asset;
   }
 

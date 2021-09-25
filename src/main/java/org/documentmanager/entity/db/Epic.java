@@ -23,14 +23,15 @@ import java.util.Objects;
 @ToString
 @RequiredArgsConstructor
 @SequenceGenerator(name = "epicseq", sequenceName = "epicseq", allocationSize = 1, initialValue = 4)
-public final class Epic extends PanacheEntityBase implements Serializable {
+public class Epic extends PanacheEntityBase implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "epicseq")
   @Schema(type = SchemaType.INTEGER, example = "0")
   private Long id;
 
   @Schema(type = SchemaType.STRING, example = "Finance")
-  @NotBlank private String name;
+  @NotBlank
+  private String name;
 
   @OneToMany(mappedBy = "epic", cascade = CascadeType.MERGE)
   @JsonbTransient
