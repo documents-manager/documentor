@@ -2,6 +2,7 @@ package org.documentmanager.boundary;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
+import org.documentmanager.testresources.ElasticSearchTestResource;
 import org.documentmanager.testresources.MinioTestResource;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -17,6 +18,7 @@ import static org.hamcrest.Matchers.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 @QuarkusTest
 @QuarkusTestResource(parallel = true, value = MinioTestResource.class)
+@QuarkusTestResource(parallel = true, value = ElasticSearchTestResource.class)
 @Transactional
 class DocumentResourceTest {
 

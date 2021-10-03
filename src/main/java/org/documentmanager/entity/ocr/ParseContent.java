@@ -1,4 +1,4 @@
-package org.documentmanager.control.ocr;
+package org.documentmanager.entity.ocr;
 
 import io.quarkus.tika.TikaContent;
 import lombok.AllArgsConstructor;

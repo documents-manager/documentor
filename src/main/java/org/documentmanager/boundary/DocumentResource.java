@@ -1,6 +1,6 @@
 package org.documentmanager.boundary;
 
-import org.documentmanager.control.DocumentService;
+import org.documentmanager.control.document.DocumentService;
 import org.documentmanager.entity.dto.DocumentDto;
 import org.documentmanager.entity.dto.DocumentListDto;
 import org.documentmanager.exception.document.DocumentNotFoundException;

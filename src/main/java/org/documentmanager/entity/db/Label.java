@@ -5,6 +5,7 @@ import lombok.*;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.Hibernate;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Indexed
 @Getter
 @Setter
 @ToString

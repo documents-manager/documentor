@@ -1,4 +1,4 @@
-package org.documentmanager.control;
+package org.documentmanager.control.document;
 
 import org.documentmanager.entity.db.Document;
 import org.documentmanager.exception.document.DocumentNotDeletableException;

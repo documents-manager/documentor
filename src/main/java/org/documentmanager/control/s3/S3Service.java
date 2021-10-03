@@ -100,45 +100,4 @@ public class S3Service {
         TEMP_DIR,
         "s3AsyncDownloadedTemp" + (new Date()).getTime() + UUID.randomUUID() + "." + ".tmp");
   }
-
-  void startup(
-      @Observes final StartupEvent ev,
-      @ConfigProperty(name = "bucket.name") final String bucketName,
-      final S3Service s3Service,
-      final S3Client s3Client,
-      final S3RequestFactory builder) {
-
-    s3Client.listBuckets().buckets().stream()
-        .filter(bucket -> bucket.name().equals(bucketName))
-        .findFirst()
-        .ifPresentOrElse(
-            bucket -> logger.info("Bucket \"{}\" is already present", bucketName),
-            () -> {
-              logger.info("Creating bucket \"{}\"", bucketName);
-              final var request = builder.createPostBucketRequest();
-              s3.createBucket(request);
-            });
-
-    // Upload test data in DEV and TEST Mode
-    final var profile = ProfileManager.getActiveProfile();
-    if ("dev".equals(profile) || "test".equals(profile)) {
-      try (final var in1 = getClass().getResourceAsStream("/test-files/asset1.pdf");
-          final var in2 = getClass().getResourceAsStream("/test-files/asset2.jpg")) {
-        final var data1 = new FormData(in1, "asset1.pdf", "application/pdf");
-        final var data2 = new FormData(in2, "asset2.jpg", "image/jpg");
-        Uni.combine()
-            .all()
-            .unis(s3Service.uploadObject("1", data1), s3Service.uploadObject("2", data2))
-            .asTuple()
-            .onItem()
-            .invoke(() -> logger.info("Uploaded test file to s3"))
-            .onFailure()
-            .invoke(() -> logger.info("Test files already present"))
-            .await()
-            .indefinitely();
-      } catch (final IOException e) {
-        logger.error("Error initializing test", e);
-      }
-    }
-  }
 }

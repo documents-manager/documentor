@@ -5,6 +5,7 @@ import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.langdetect.OptimaizeLangDetector;
 import org.apache.tika.language.detect.LanguageHandler;
 import org.apache.tika.sax.BodyContentHandler;
+import org.documentmanager.entity.ocr.ParseContent;
 import org.documentmanager.entity.s3.FormData;
 
 import javax.enterprise.context.ApplicationScoped;
