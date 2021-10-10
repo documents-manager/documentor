@@ -1,4 +1,4 @@
-package org.documentmanager.control;
+package org.documentmanager.control.asset;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.IOException;

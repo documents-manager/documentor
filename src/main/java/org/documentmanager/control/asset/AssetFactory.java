@@ -1,7 +1,6 @@
-package org.documentmanager.control.factory;
+package org.documentmanager.control.asset;
 
 import io.quarkus.tika.TikaMetadata;
-import org.documentmanager.control.FileHasher;
 import org.documentmanager.control.ocr.OCRReader;
 import org.documentmanager.entity.db.Asset;
 import org.documentmanager.entity.db.Document;

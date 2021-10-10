@@ -7,6 +7,8 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
@@ -19,6 +21,7 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
+@Indexed
 @Getter
 @Setter
 @Builder
@@ -69,6 +72,7 @@ public class Asset extends PanacheEntityBase implements Serializable {
   @Column(updatable = false)
   @Lob
   @Type(type = "org.hibernate.type.TextType")
+  @FullTextField(analyzer = "german")
   private String ocrContent;
 
   @JsonbTransient

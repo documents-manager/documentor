@@ -1,7 +1,7 @@
 package org.documentmanager.boundary;
 
 import io.smallrye.mutiny.Uni;
-import org.documentmanager.control.AssetService;
+import org.documentmanager.control.asset.AssetService;
 import org.documentmanager.control.s3.S3Service;
 import org.documentmanager.entity.db.Asset;
 import org.documentmanager.entity.s3.FormData;

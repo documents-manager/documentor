@@ -24,6 +24,7 @@
     <jbig2-imageio.version>3.0.3</jbig2-imageio.version>
     <jai.version>1.4.0</jai.version>
     <tika.version>1.27</tika.version>
+    <mapstuct-binding.version>0.2.0</mapstuct-binding.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -88,6 +89,10 @@
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-validator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-hibernate-search-orm-elasticsearch</artifactId>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -163,7 +168,7 @@
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok-mapstruct-binding</artifactId>
-      <version>0.2.0</version>
+      <version>${mapstuct-binding.version}</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>

@@ -12,7 +12,7 @@ public class S3RequestFactory {
   @ConfigProperty(name = "bucket.name")
   String bucketName;
 
-  PutObjectRequest createPutRequest(final String objectId, final FormData formData) {
+  public PutObjectRequest createPutRequest(final String objectId, final FormData formData) {
     return PutObjectRequest.builder()
         .bucket(bucketName)
         .key(objectId)
@@ -20,15 +20,15 @@ public class S3RequestFactory {
         .build();
   }
 
-  GetObjectRequest createGetRequest(final String objectKey) {
+  public GetObjectRequest createGetRequest(final String objectKey) {
     return GetObjectRequest.builder().bucket(bucketName).key(objectKey).build();
   }
 
-  DeleteObjectRequest createDeleteRequest(final String objectKey) {
+  public DeleteObjectRequest createDeleteRequest(final String objectKey) {
     return DeleteObjectRequest.builder().bucket(bucketName).key(objectKey).build();
   }
 
-  CreateBucketRequest createPostBucketRequest() {
+  public CreateBucketRequest createPostBucketRequest() {
     return CreateBucketRequest.builder().bucket(bucketName).build();
   }
 

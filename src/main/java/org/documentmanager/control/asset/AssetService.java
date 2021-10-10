@@ -1,7 +1,7 @@
-package org.documentmanager.control;
+package org.documentmanager.control.asset;
 
 import io.smallrye.mutiny.Uni;
-import org.documentmanager.control.factory.AssetFactory;
+import org.documentmanager.control.asset.AssetFactory;
 import org.documentmanager.control.s3.S3Service;
 import org.documentmanager.entity.db.Asset;
 import org.documentmanager.entity.db.Document;
