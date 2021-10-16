@@ -5,6 +5,7 @@ import lombok.*;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.Hibernate;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.GenericField;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
@@ -33,12 +34,17 @@ public class Metadata extends PanacheEntityBase implements Serializable {
   @Column(updatable = false)
   @NotBlank
   @Schema(type = SchemaType.STRING, example = "content-type", readOnly = true)
+  @GenericField
   private String key;
 
   @Column(updatable = false)
   @NotBlank
   @Schema(type = SchemaType.STRING, example = "application/pdf", readOnly = true)
+  @GenericField
   private String value;
+
+  @ManyToOne
+  private Asset asset;
 
   @Override
   public boolean equals(final Object o) {

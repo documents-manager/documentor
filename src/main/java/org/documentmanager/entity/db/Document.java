@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.documentmanager.entity.es.EpicBridge;
 import org.documentmanager.entity.es.LocalDateTimeBridge;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,10 +13,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.search.engine.backend.types.Sortable;
 import org.hibernate.search.mapper.pojo.bridge.mapping.annotation.ValueBridgeRef;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.*;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
@@ -42,7 +40,13 @@ public class Document extends PanacheEntityBase implements Serializable {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "documentseq")
   private Long id;
   @FullTextField(analyzer = "german")
-  @NotBlank private String title;
+  @KeywordField(
+          name = "title_sort",
+          sortable = Sortable.YES,
+          normalizer = "sort"
+  )
+  @NotBlank
+  private String title;
 
   @Lob
   @Type(type = "org.hibernate.type.TextType")
@@ -69,6 +73,9 @@ public class Document extends PanacheEntityBase implements Serializable {
   private LocalDateTime lastUpdated;
 
   @ManyToOne(cascade = CascadeType.PERSIST)
+  @GenericField(
+          valueBridge = @ValueBridgeRef(type = EpicBridge.class)
+  )
   private Epic epic;
 
   @ManyToMany
@@ -77,13 +84,15 @@ public class Document extends PanacheEntityBase implements Serializable {
       joinColumns = @JoinColumn(name = "document_id"),
       inverseJoinColumns = @JoinColumn(name = "label_id"))
   @ToString.Exclude
+  @IndexedEmbedded
   private List<Label> labels;
 
   @OneToMany(
-      mappedBy = "document",
-      cascade = CascadeType.ALL,
-      orphanRemoval = true,
-      fetch = FetchType.EAGER)
+          mappedBy = "document",
+          cascade = CascadeType.ALL,
+          orphanRemoval = true,
+          fetch = FetchType.EAGER
+  )
   @IndexedEmbedded
   private List<Asset> assets;
 
