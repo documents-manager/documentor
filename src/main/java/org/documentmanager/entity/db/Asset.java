@@ -2,13 +2,15 @@ package org.documentmanager.entity.db;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.*;
+import org.documentmanager.entity.es.MetadataValueBinder;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.search.mapper.pojo.bridge.mapping.annotation.PropertyBinderRef;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.PropertyBinding;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
@@ -21,7 +23,6 @@ import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Indexed
 @Getter
 @Setter
 @Builder
@@ -82,9 +83,10 @@ public class Asset extends PanacheEntityBase implements Serializable {
   @ToString.Exclude
   private Document document;
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-  @JoinColumn(name = "asset_id")
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "asset")
+  //@JoinColumn(name = "asset_id")
   @NotNull
+  @PropertyBinding(binder = @PropertyBinderRef(type = MetadataValueBinder.class))
   private Set<Metadata> metadata = Collections.emptySet();
 
   @Override

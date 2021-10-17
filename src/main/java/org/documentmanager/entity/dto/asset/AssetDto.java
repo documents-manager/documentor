@@ -1,11 +1,12 @@
-package org.documentmanager.entity.dto;
+package org.documentmanager.entity.dto.asset;
 
 import lombok.Data;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
-public class AssetDto {
+public class AssetDto implements Serializable {
   private Long id;
   private String fileName;
   private String contentType;

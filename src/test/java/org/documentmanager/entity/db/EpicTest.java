@@ -27,11 +27,4 @@ class EpicTest {
     epic.setName("");
     assertThat(epic, validateFalse());
   }
-
-  @Test
-  void checkInvalidMissingVersion() {
-    final var epic = EntityFixture.createEpic();
-    epic.setVersion(null);
-    assertThat(epic, validateFalse());
-  }
 }

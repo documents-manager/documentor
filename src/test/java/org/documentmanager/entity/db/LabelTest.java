@@ -27,11 +27,4 @@ class LabelTest {
     label.setName("");
     assertThat(label, validateFalse());
   }
-
-  @Test
-  void checkInvalidMissingVersion() {
-    final var label = EntityFixture.createLabel();
-    label.setVersion(null);
-    assertThat(label, validateFalse());
-  }
 }
