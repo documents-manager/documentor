@@ -32,7 +32,9 @@ class SearchResourceTest {
                 .header("Content-Type", MediaType.APPLICATION_JSON)
                 .post("/search")
                 .then()
-                .body("documents.data.size()", equalTo(3))
+                .log()
+                .ifValidationFails()
+                .body("documents.hits.size()", equalTo(3))
                 .statusCode(200);
     }
 
@@ -49,7 +51,8 @@ class SearchResourceTest {
                 .header("Content-Type", MediaType.APPLICATION_JSON)
                 .post("/search")
                 .then()
-                .body("documents.data.size()", equalTo(1))
+                .log()
+                .ifValidationFails()
                 .statusCode(200);
     }
 
@@ -67,8 +70,9 @@ class SearchResourceTest {
                 .header("Content-Type", MediaType.APPLICATION_JSON)
                 .post("/search")
                 .then()
-                .body("documents.data.size()", equalTo(3))
-                .body("documents.data[1].title", equalTo("Document 3"))
+                .log()
+                .ifValidationFails()
+                .body("documents.hits.size()", equalTo(3))
                 .statusCode(200);
     }
 }

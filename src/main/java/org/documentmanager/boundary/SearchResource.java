@@ -1,5 +1,6 @@
 package org.documentmanager.boundary;
 
+import io.smallrye.mutiny.Uni;
 import org.documentmanager.control.search.SearchService;
 import org.documentmanager.entity.dto.search.SearchDto;
 import org.documentmanager.entity.dto.search.SearchEntityResult;
@@ -62,7 +63,7 @@ public class SearchResource {
                             type = SchemaType.OBJECT,
                             implementation = Error.class)))
     @Operation(summary = "Search for entities.", description = "Returns a the search result.")
-    public Map<String, SearchEntityResult<? extends Serializable>> search(final SearchDto search) {
+    public Uni<Map<String, SearchEntityResult<? extends Serializable>>> search(final SearchDto search) {
         return searchService.search(search);
     }
 }
