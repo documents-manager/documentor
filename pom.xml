@@ -23,7 +23,7 @@
     <testcontainers.version>1.16.2</testcontainers.version>
     <jbig2-imageio.version>3.0.3</jbig2-imageio.version>
     <jai.version>1.4.0</jai.version>
-    <tika.version>1.27</tika.version>
+    <tika.version>1.28</tika.version>
     <mapstuct-binding.version>0.2.0</mapstuct-binding.version>
   </properties>
   <dependencyManagement>
