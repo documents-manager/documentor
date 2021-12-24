@@ -25,6 +25,7 @@
     <jai.version>1.4.0</jai.version>
     <tika.version>1.27</tika.version>
     <mapstuct-binding.version>0.2.0</mapstuct-binding.version>
+    <awssdk.version>2.17.43</awssdk.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -105,10 +106,12 @@
     <dependency>
       <groupId>software.amazon.awssdk</groupId>
       <artifactId>url-connection-client</artifactId>
+      <version>${awssdk.version}</version>
     </dependency>
     <dependency>
       <groupId>software.amazon.awssdk</groupId>
       <artifactId>netty-nio-client</artifactId>
+      <version>${awssdk.version}</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
