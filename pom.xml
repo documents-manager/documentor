@@ -20,7 +20,7 @@
 
     <lombok.version>1.18.22</lombok.version>
     <mapstruct.version>1.4.2.Final</mapstruct.version>
-    <testcontainers.version>1.16.2</testcontainers.version>
+    <testcontainers.version>1.16.3</testcontainers.version>
     <jbig2-imageio.version>3.0.3</jbig2-imageio.version>
     <jai.version>1.4.0</jai.version>
     <tika.version>1.28</tika.version>
