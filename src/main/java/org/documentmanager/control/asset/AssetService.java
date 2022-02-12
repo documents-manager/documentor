@@ -17,39 +17,52 @@ import java.security.NoSuchAlgorithmException;
 @ApplicationScoped
 public class AssetService {
 
-  @Inject S3Service s3;
+    @Inject
+    S3Service s3;
 
-  @Inject AssetFactory factory;
+    @Inject
+    AssetFactory factory;
 
-  @Transactional
-  public Uni<Asset> addAssetToDocument(
-      final Long documentId, final FormData formData, final String language, final Long fileSize)
-      throws IOException, NoSuchAlgorithmException {
-    final var document =
-        (Document)
-            Document.findByIdOptional(documentId)
-                .orElseThrow(() -> new DocumentNotFoundException(documentId));
+    @Transactional
+    public Uni<Asset> addAssetToDocument(
+            final Long documentId, final FormData formData, final String language, final Long fileSize)
+            throws IOException, NoSuchAlgorithmException {
+        final var document =
+                (Document)
+                        Document.findByIdOptional(documentId)
+                                .orElseThrow(() -> new DocumentNotFoundException(documentId));
 
-    final var asset = factory.createAsset(formData, document, language, fileSize);
-    asset.persist();
-    document.getAssets().add(asset);
+        return addAsset(formData, language, fileSize, document);
+    }
 
-    return s3.uploadObject(asset.getId().toString(), formData)
-        .onItem()
-        .transform(putObjectResponse -> asset);
-  }
+    private Uni<Asset> addAsset(final FormData formData, final String language, final Long fileSize, final Document document) throws NoSuchAlgorithmException, IOException {
+        final var asset = factory.createAsset(formData, document, language, fileSize);
+        asset.persist();
+        if (document != null) {
+            document.getAssets().add(asset);
+        }
 
-  @Transactional
-  public Uni<Asset> deleteAsset(final Long objectId) {
-    return Uni.createFrom()
-        .item(
-            () -> {
-              final var asset = (Asset) Asset.findById(objectId);
-              asset.delete();
-              return asset;
-            })
-        .onItem()
-        .transformToUni(
-            asset -> s3.deleteObject(objectId.toString()).onItem().transform(ignored -> asset));
-  }
+        return s3.uploadObject(asset.getId().toString(), formData)
+                .onItem()
+                .transform(putObjectResponse -> asset);
+    }
+
+    @Transactional
+    public Uni<Asset> addStagingAsset(final FormData formData, final String language, final Long fileSize) throws NoSuchAlgorithmException, IOException {
+        return addAsset(formData, language, fileSize, null);
+    }
+
+    @Transactional
+    public Uni<Asset> deleteAsset(final Long objectId) {
+        return Uni.createFrom()
+                .item(
+                        () -> {
+                            final var asset = (Asset) Asset.findById(objectId);
+                            asset.delete();
+                            return asset;
+                        })
+                .onItem()
+                .transformToUni(
+                        asset -> s3.deleteObject(objectId.toString()).onItem().transform(ignored -> asset));
+    }
 }

@@ -79,7 +79,6 @@ public class Asset extends PanacheEntityBase implements Serializable {
   @JsonbTransient
   @JoinColumn(updatable = false)
   @ManyToOne
-  @NotNull
   @ToString.Exclude
   private Document document;
 
