@@ -26,6 +26,13 @@ public class DocumentReferenceId implements Serializable {
   @Column(name = "target_id")
   private Long targetId;
 
+  public static DocumentReferenceId create(final Long sourceId, final Long targetId) {
+    final var documentReferenceId = new DocumentReferenceId();
+    documentReferenceId.setSourceId(sourceId);
+    documentReferenceId.setTargetId(targetId);
+    return documentReferenceId;
+  }
+
   @Override
   public boolean equals(final Object o) {
     if (this == o) return true;
