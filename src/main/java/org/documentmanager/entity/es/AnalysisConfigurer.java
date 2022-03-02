@@ -14,7 +14,7 @@ public class AnalysisConfigurer implements ElasticsearchAnalysisConfigurer {
     private static final String LOWERCASE = "lowercase";
 
     @Override
-    public void configure(ElasticsearchAnalysisConfigurationContext context) {
+    public void configure(final ElasticsearchAnalysisConfigurationContext context) {
         context.analyzer("name").custom()
                 .tokenizer("standard")
                 .tokenFilters(ASCII_FOLDING, LOWERCASE);
@@ -22,6 +22,18 @@ public class AnalysisConfigurer implements ElasticsearchAnalysisConfigurer {
         context.analyzer("german").custom()
                 .tokenizer("standard")
                 .tokenFilters(ASCII_FOLDING, LOWERCASE, "porter_stem");
+
+        context.analyzer("autocomplete_indexing").custom()
+                .tokenizer("whitespace")
+                .tokenFilters("lowercase", "asciifolding", "autocomplete_edge_ngram");
+        context.tokenFilter("autocomplete_edge_ngram")
+                .type("edge_ngram")
+                .param("min_gram", 1)
+                .param("max_gram", 10);
+        // Same as "autocomplete_indexing", but without the edge-ngram filter
+        context.analyzer("autocomplete_search").custom()
+                .tokenizer("whitespace")
+                .tokenFilters("lowercase", "asciifolding");
 
         context.normalizer("sort").custom()
                 .tokenFilters(ASCII_FOLDING, LOWERCASE);

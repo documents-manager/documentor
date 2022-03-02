@@ -45,6 +45,11 @@ public class Document extends PanacheEntityBase implements Serializable {
           sortable = Sortable.YES,
           normalizer = "sort"
   )
+  @FullTextField(
+          name = "title_autocomplete",
+          analyzer = "autocomplete_indexing",
+          searchAnalyzer = "autocomplete_search"
+  )
   @NotBlank
   private String title;
 

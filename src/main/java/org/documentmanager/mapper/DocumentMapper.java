@@ -4,10 +4,7 @@ import org.documentmanager.entity.db.Asset;
 import org.documentmanager.entity.db.Document;
 import org.documentmanager.entity.db.DocumentReference;
 import org.documentmanager.entity.dto.asset.AssetDto;
-import org.documentmanager.entity.dto.document.DocumentDto;
-import org.documentmanager.entity.dto.document.DocumentLinkDto;
-import org.documentmanager.entity.dto.document.DocumentListDto;
-import org.documentmanager.entity.dto.document.DocumentReferenceDto;
+import org.documentmanager.entity.dto.document.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -32,4 +29,6 @@ public interface DocumentMapper {
   void merge(@MappingTarget Document target, Document source);
 
   AssetDto toAssetDto(Asset asset);
+
+  DocumentAutocompleteDto toAutocompleteDto(Document document);
 }
