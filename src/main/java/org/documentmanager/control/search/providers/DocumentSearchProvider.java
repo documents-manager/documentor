@@ -15,7 +15,7 @@ import javax.inject.Inject;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-public class DocumentSearchProvider implements SearchProvider<DocumentListDto> {
+public class DocumentSearchProvider implements SearchProvider<DocumentListDto, DocumentAutocompleteDto> {
     @Inject
     SearchSession searchSession;
 
@@ -27,13 +27,13 @@ public class DocumentSearchProvider implements SearchProvider<DocumentListDto> {
 
     @Override
     public String type() {
-        return "documents";
+        return "document";
     }
 
     @Override
     public SearchEntityResult<DocumentAutocompleteDto> autocomplete(final String term) {
         final var searchResult = searchSession.search(Document.class)
-                .where(f -> f.simpleQueryString().field("title_autocomplete").matching(term))
+                .where(f -> f.simpleQueryString().fields("title_autocomplete", "assets.filename_autocomplete").matching(term))
                 .fetch(10);
 
         final var docs = searchResult.hits()

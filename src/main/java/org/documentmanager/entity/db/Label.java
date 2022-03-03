@@ -6,6 +6,8 @@ import lombok.*;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.Hibernate;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 import javax.json.bind.annotation.JsonbTransient;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Entity
+@Indexed
 @Getter
 @Setter
 @ToString
@@ -36,6 +39,11 @@ public class Label extends PanacheEntityBase implements Serializable {
   @Schema(type = SchemaType.STRING, example = "Bank")
   @NotBlank
   @KeywordField
+  @FullTextField(
+          name = "name_autocomplete",
+          analyzer = "autocomplete_indexing",
+          searchAnalyzer = "autocomplete_search"
+  )
   private String name;
 
   @ManyToMany(mappedBy = "labels")
