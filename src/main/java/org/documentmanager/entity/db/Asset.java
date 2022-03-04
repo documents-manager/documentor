@@ -96,6 +96,7 @@ public class Asset extends PanacheEntityBase implements Serializable {
   @JoinColumn(updatable = false)
   @ManyToOne
   @ToString.Exclude
+  @NotNull
   private Document document;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY, mappedBy = "asset")

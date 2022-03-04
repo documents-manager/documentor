@@ -24,27 +24,32 @@ public class DocumentService {
 
     public void add(final Document document) {
         // When documents are created the source doc isn't necessarily set
-        for (final var reference : document.getReferences()) {
-            if (reference.getSourceDocument() == null) {
-                reference.setSourceDocument(document);
+        if (document.getReferences() != null) {
+            for (final var reference : document.getReferences()) {
+                if (reference.getSourceDocument() == null) {
+                    reference.setSourceDocument(document);
+                }
+                if (reference.getId() == null) {
+                    final var documentReferenceId = DocumentReferenceId.create(document.getId(), reference.getSourceDocument().getId());
+                    reference.setId(documentReferenceId);
+                }
             }
-            if (reference.getId() == null) {
-                final var documentReferenceId = DocumentReferenceId.create(document.getId(), reference.getSourceDocument().getId());
-                reference.setId(documentReferenceId);
-            }
-        }
 
+        }
         // Assure that the epic exists
         if (document.getEpic() != null) {
             final Epic epic = Epic.findById(document.getEpic().getId());
             document.setEpic(epic);
         }
 
-        final var labelIds = document.getLabels().stream().map(Label::getId).collect(Collectors.toSet());
+        if (document.getLabels() != null) {
+            final var labelIds = document.getLabels().stream().map(Label::getId).collect(Collectors.toSet());
 
-        final var labels = Label.findByIds(labelIds);
+            final var labels = Label.findByIds(labelIds);
 
-        document.setLabels(labels);
+            document.setLabels(labels);
+        }
+
 
         document.persist();
     }
