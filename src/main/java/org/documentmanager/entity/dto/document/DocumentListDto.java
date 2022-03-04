@@ -1,24 +1,19 @@
 package org.documentmanager.entity.dto.document;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.documentmanager.entity.db.Epic;
 import org.documentmanager.entity.db.Label;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
-import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
-public class DocumentListDto implements Serializable {
-    @Schema(type = SchemaType.INTEGER, example = "1000", readOnly = true)
-    private Long id;
-
-    @Schema(type = SchemaType.STRING, example = "ABC")
-    @NotBlank
-    private String title;
+public class DocumentListDto extends DocumentAutocompleteDto implements Serializable {
 
     @Schema(type = SchemaType.STRING, example = "Some description")
     private String description;

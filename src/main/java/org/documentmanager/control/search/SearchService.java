@@ -16,10 +16,24 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 public class SearchService {
     @Inject
-    Instance<SearchProvider<?>> searchProviders;
+    Instance<FullTextProvider<?>> fullTextProviders;
+
+    @Inject
+    Instance<AutoCompleteProvider<?>> autoCompleteProviders;
+
+
+    public Uni<Map<String, SearchEntityResult<? extends Serializable>>> autocomplete(final String term) {
+
+        final var unis = autoCompleteProviders.stream()
+                .map(provider -> Uni.createFrom().item(() -> new SearchUniWrapper(provider.type(), provider.autocomplete(term))))
+                .collect(Collectors.toList());
+
+        return Uni.combine().all().unis(unis)
+                .combinedWith(this::collectToMap);
+    }
 
     public Uni<Map<String, SearchEntityResult<? extends Serializable>>> search(final SearchDto search) {
-        final var unis = searchProviders.stream()
+        final var unis = fullTextProviders.stream()
                 .map(provider -> Uni.createFrom().item(() -> new SearchUniWrapper(provider.type(), provider.search(search))))
                 .collect(Collectors.toList());
 

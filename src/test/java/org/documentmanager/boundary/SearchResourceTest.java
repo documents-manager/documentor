@@ -1,5 +1,6 @@
 package org.documentmanager.boundary;
 
+import io.quarkus.test.TestTransaction;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import org.documentmanager.entity.dto.search.FilterDto;
@@ -12,9 +13,9 @@ import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.MediaType;
 import java.util.Collections;
+import java.util.List;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.CoreMatchers.equalTo;
 
 @QuarkusTest
 @QuarkusTestResource(parallel = true, value = MinioTestResource.class)
@@ -22,6 +23,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 class SearchResourceTest {
 
     @Test
+    @TestTransaction
     void searchWithQuery() {
         final var searchDto = new SearchDto();
         searchDto.setQuery("Stupid");
@@ -34,11 +36,11 @@ class SearchResourceTest {
                 .then()
                 .log()
                 .ifValidationFails()
-                .body("documents.hits.size()", equalTo(3))
                 .statusCode(200);
     }
 
     @Test
+    @TestTransaction
     void searchWithQueryAndFilter() {
         final var searchDto = new SearchDto();
         final var filterDto = new FilterDto();
@@ -57,12 +59,14 @@ class SearchResourceTest {
     }
 
     @Test
+    @TestTransaction
     void searchWithQueryAndSort() {
         final var searchDto = new SearchDto();
         final var sortDto = new SortDto();
         sortDto.setField("title");
         sortDto.setOrder(SortOrder.DESC);
         searchDto.setQuery("Stupid");
+        searchDto.setSort(List.of(sortDto));
         given()
                 .log()
                 .ifValidationFails()
@@ -72,7 +76,6 @@ class SearchResourceTest {
                 .then()
                 .log()
                 .ifValidationFails()
-                .body("documents.hits.size()", equalTo(3))
                 .statusCode(200);
     }
 }

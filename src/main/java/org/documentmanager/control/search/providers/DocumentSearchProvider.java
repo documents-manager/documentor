@@ -3,6 +3,7 @@ package org.documentmanager.control.search.providers;
 import org.documentmanager.control.search.ElasticSearchFactory;
 import org.documentmanager.control.search.SearchProvider;
 import org.documentmanager.entity.db.Document;
+import org.documentmanager.entity.dto.document.DocumentAutocompleteDto;
 import org.documentmanager.entity.dto.document.DocumentListDto;
 import org.documentmanager.entity.dto.search.SearchDto;
 import org.documentmanager.entity.dto.search.SearchEntityResult;
@@ -14,7 +15,7 @@ import javax.inject.Inject;
 import java.util.stream.Collectors;
 
 @ApplicationScoped
-public class DocumentSearchProvider implements SearchProvider<DocumentListDto> {
+public class DocumentSearchProvider implements SearchProvider<DocumentListDto, DocumentAutocompleteDto> {
     @Inject
     SearchSession searchSession;
 
@@ -26,7 +27,20 @@ public class DocumentSearchProvider implements SearchProvider<DocumentListDto> {
 
     @Override
     public String type() {
-        return "documents";
+        return "document";
+    }
+
+    @Override
+    public SearchEntityResult<DocumentAutocompleteDto> autocomplete(final String term) {
+        final var searchResult = searchSession.search(Document.class)
+                .where(f -> f.simpleQueryString().fields("title_autocomplete", "assets.filename_autocomplete").matching(term))
+                .fetch(10);
+
+        final var docs = searchResult.hits()
+                .stream()
+                .map(document -> mapper.toAutocompleteDto(document))
+                .collect(Collectors.toList());
+        return new SearchEntityResult<>(docs, searchResult.total().hitCount());
     }
 
     @Override

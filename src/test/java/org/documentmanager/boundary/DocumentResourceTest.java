@@ -1,5 +1,6 @@
 package org.documentmanager.boundary;
 
+import io.quarkus.test.TestTransaction;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 import org.documentmanager.testresources.ElasticSearchTestResource;
@@ -9,7 +10,6 @@ import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
-import javax.transaction.Transactional;
 import javax.ws.rs.core.MediaType;
 
 import static io.restassured.RestAssured.given;
@@ -19,23 +19,23 @@ import static org.hamcrest.Matchers.*;
 @QuarkusTest
 @QuarkusTestResource(parallel = true, value = MinioTestResource.class)
 @QuarkusTestResource(parallel = true, value = ElasticSearchTestResource.class)
-@Transactional
 class DocumentResourceTest {
 
   @Test
+  @TestTransaction
   @Order(1)
   void getAll() {
     given()
-        .when()
-        .get("/documents")
-        .then()
-        .statusCode(200)
-        .log()
-        .ifValidationFails()
-        .body("$.size", is(3));
+            .when()
+            .get("/documents")
+            .then()
+            .statusCode(200)
+            .log()
+            .ifValidationFails();
   }
 
   @Test
+  @TestTransaction
   @Order(2)
   void getById() {
     given()
@@ -51,6 +51,7 @@ class DocumentResourceTest {
   }
 
   @Test
+  @TestTransaction
   @Order(3)
   void create() {
     given()
@@ -65,12 +66,14 @@ class DocumentResourceTest {
   }
 
   @Test
+  @TestTransaction
   @Order(4)
   void delete() {
     given().when().delete("/documents/3").then().statusCode(204);
   }
 
   @Test
+  @TestTransaction
   @Order(5)
   void updateDocument() {
     given()
