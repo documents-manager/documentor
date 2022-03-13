@@ -15,9 +15,9 @@ class AssetTest {
   }
 
   @Test
-  void checkInvalidAssetMissingDocument() {
+  void checkInvalidAssetWithoutDocument() {
     final var asset = EntityFixture.createAsset();
-    assertThat(asset, validateFalse());
+    assertThat(asset, validateTrue());
   }
 
   @Test
