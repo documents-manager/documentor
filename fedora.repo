@@ -1,0 +1,5 @@
+[fedora]
+name=Fedora $releasever - $basearch
+baseurl=http://download.fedoraproject.org/pub/fedora/linux/releases/33/Everything/$basearch/os/
+enabled=1
+gpgcheck=0
