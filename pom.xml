@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.documentmanager</groupId>
   <artifactId>documentor</artifactId>
-  <version>1.0.0-alpha1</version>
+  <version>1.0.0-alpha2</version>
   <properties>
     <compiler-plugin.version>3.10.1</compiler-plugin.version>
     <failsafe.useModulePath>false</failsafe.useModulePath>

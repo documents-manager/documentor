@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 
 @Path("staging")
-@Tag(name = "staging")
+@Tag(name = "Staging")
 public class StagingResource {
     @Inject
     AssetService assetService;
