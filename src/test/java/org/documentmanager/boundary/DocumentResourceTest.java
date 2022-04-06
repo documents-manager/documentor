@@ -55,14 +55,14 @@ class DocumentResourceTest {
   @Order(3)
   void create() {
     given()
-        .when()
-        .log()
-        .ifValidationFails()
-        .header("Content-Type", MediaType.APPLICATION_JSON)
-        .body("{\"title\": \"Aha\", \"description\": \"Take on me\"}")
-        .post("/documents")
-        .then()
-        .statusCode(201);
+            .when()
+            .log()
+            .ifValidationFails()
+            .header("Content-Type", MediaType.APPLICATION_JSON)
+            .body("{\"title\": \"Aha\", \"description\": \"Take on me\"}")
+            .post("/documents")
+            .then()
+            .statusCode(200);
   }
 
   @Test

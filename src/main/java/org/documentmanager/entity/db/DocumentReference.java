@@ -1,5 +1,6 @@
 package org.documentmanager.entity.db;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -17,8 +18,11 @@ import java.util.Objects;
 @Setter
 @ToString
 @RequiredArgsConstructor
-public class DocumentReference implements Serializable {
-  @EmbeddedId @JsonbTransient @NotNull private DocumentReferenceId id;
+public class DocumentReference extends PanacheEntityBase implements Serializable {
+  @EmbeddedId
+  @JsonbTransient
+  @NotNull
+  private DocumentReferenceId id;
 
   @ManyToOne
   @MapsId("sourceId")
@@ -43,11 +47,11 @@ public class DocumentReference implements Serializable {
     if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
     final DocumentReference that = (DocumentReference) o;
 
-    return Objects.equals(id, that.id);
+    return Objects.equals(id, that.id) && Objects.equals(referenceType, that.referenceType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(id);
+    return Objects.hash(id, referenceType);
   }
 }
