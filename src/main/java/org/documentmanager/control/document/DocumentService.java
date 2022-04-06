@@ -66,6 +66,11 @@ public class DocumentService {
     }
 
     public void update(final Document document, final DocumentDto update) {
+        // Update simple properties
+        document.setTitle(update.getTitle());
+        document.setDescription(update.getDescription());
+
+        // Update more complex properties
         final var targetReferences = document.getReferences().stream().map(documentReference -> mapper.toLinkDto(documentReference.getTargetDocument())).collect(Collectors.toList());
         final var referencesToAdd = new ArrayList<DocumentReference>();
         final var referencesToDelete = new ArrayList<DocumentReference>();
@@ -122,10 +127,6 @@ public class DocumentService {
 
         for (final Asset asset : assetsToAdd) {
             asset.setDocument(document);
-            asset.persistAndFlush();
         }
-        document.persistAndFlush();
-
-        System.out.println();
     }
 }
