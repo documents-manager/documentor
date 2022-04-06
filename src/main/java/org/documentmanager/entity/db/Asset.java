@@ -1,6 +1,7 @@
 package org.documentmanager.entity.db;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.panache.common.Parameters;
 import lombok.*;
 import org.documentmanager.entity.es.LocalDateTimeBridge;
 import org.documentmanager.entity.es.MetadataValueBinder;
@@ -21,9 +22,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Getter
@@ -93,8 +92,10 @@ public class Asset extends PanacheEntityBase implements Serializable {
   private String ocrContent;
 
   @JsonbTransient
-  @JoinColumn(updatable = false)
-  @ManyToOne
+  @JoinColumn(name = "document_id")
+  @ManyToOne(
+          cascade = {CascadeType.MERGE, CascadeType.PERSIST}
+  )
   @ToString.Exclude
   private Document document;
 
@@ -104,6 +105,10 @@ public class Asset extends PanacheEntityBase implements Serializable {
   @PropertyBinding(binder = @PropertyBinderRef(type = MetadataValueBinder.class))
   //@IndexedEmbedded
   private Set<Metadata> metadata = Collections.emptySet();
+
+  public static List<Asset> findByIds(final Collection<Long> ids) {
+    return list("id in :ids", Parameters.with("ids", ids));
+  }
 
   @Override
   public boolean equals(final Object o) {

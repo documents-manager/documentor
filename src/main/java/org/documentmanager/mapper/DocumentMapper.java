@@ -30,5 +30,7 @@ public interface DocumentMapper {
 
   AssetDto toAssetDto(Asset asset);
 
+  Asset fromAssetDto(AssetDto assetDto);
+
   DocumentAutocompleteDto toAutocompleteDto(Document document);
 }

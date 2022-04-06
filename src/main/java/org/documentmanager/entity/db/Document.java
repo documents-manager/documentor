@@ -13,7 +13,10 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.search.engine.backend.types.Sortable;
 import org.hibernate.search.mapper.pojo.bridge.mapping.annotation.ValueBridgeRef;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.*;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.IndexedEmbedded;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
@@ -97,7 +100,7 @@ public class Document extends PanacheEntityBase implements Serializable {
 
   @OneToMany(
           mappedBy = "document",
-          cascade = CascadeType.ALL,
+          cascade = {CascadeType.MERGE, CascadeType.PERSIST},
           orphanRemoval = true,
           fetch = FetchType.EAGER
   )

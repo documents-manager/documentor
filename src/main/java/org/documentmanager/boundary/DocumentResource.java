@@ -19,7 +19,6 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -109,7 +108,7 @@ public final class DocumentResource {
           final DocumentDto documentDto) {
     final var document = mapper.fromDto(documentDto);
     documentService.add(document);
-    return Response.created(URI.create("/documents/" + document.getId())).build();
+    return Response.ok(document).build();
   }
 
   @PUT
@@ -145,9 +144,9 @@ public final class DocumentResource {
         .findByIdOptional(id)
         .map(
             documentToUpdate -> {
-              final var documentUpdated = mapper.fromDto(documentDto);
-              mapper.merge(documentToUpdate, documentUpdated);
-              return mapper.toDto(documentToUpdate);
+                //mapper.merge(documentToUpdate, documentUpdated);
+                documentService.update(documentToUpdate, documentDto);
+                return mapper.toDto(documentToUpdate);
             })
         .orElseThrow(() -> new DocumentNotFoundException(documentDto.getId()));
   }
