@@ -9,6 +9,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -25,5 +26,5 @@ public class DocumentListDto extends DocumentAutocompleteDto implements Serializ
     private LocalDateTime lastUpdated;
 
     private Epic epic;
-    private List<Label> labels;
+    private List<Label> labels = new ArrayList<>();
 }

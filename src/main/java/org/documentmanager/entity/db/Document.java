@@ -24,6 +24,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -91,12 +92,12 @@ public class Document extends PanacheEntityBase implements Serializable {
 
   @ManyToMany
   @JoinTable(
-      name = "Document_Label",
-      joinColumns = @JoinColumn(name = "document_id"),
-      inverseJoinColumns = @JoinColumn(name = "label_id"))
+          name = "Document_Label",
+          joinColumns = @JoinColumn(name = "document_id"),
+          inverseJoinColumns = @JoinColumn(name = "label_id"))
   @ToString.Exclude
   @IndexedEmbedded
-  private List<Label> labels;
+  private List<Label> labels = new ArrayList<>();
 
   @OneToMany(
           mappedBy = "document",
@@ -105,16 +106,16 @@ public class Document extends PanacheEntityBase implements Serializable {
           fetch = FetchType.EAGER
   )
   @IndexedEmbedded
-  private List<Asset> assets;
+  private List<Asset> assets = new ArrayList<>();
 
   @OneToMany(mappedBy = "sourceDocument", cascade = CascadeType.ALL, orphanRemoval = true)
   @ToString.Exclude
-  private List<DocumentReference> references;
+  private List<DocumentReference> references = new ArrayList<>();
 
   @JsonbTransient
   @OneToMany(mappedBy = "targetDocument", cascade = CascadeType.ALL, orphanRemoval = true)
   @ToString.Exclude
-  private List<DocumentReference> referencedBy;
+  private List<DocumentReference> referencedBy = new ArrayList<>();
 
   @JsonbTransient @Version @NotNull private Integer version;
 
