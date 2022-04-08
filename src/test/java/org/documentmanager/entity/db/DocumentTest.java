@@ -15,12 +15,6 @@ class DocumentTest {
   }
 
   @Test
-  void checkInvalidDocumentMissingVersion() {
-    final var document = EntityFixture.createBasicDocument();
-    assertThat(document, validateFalse());
-  }
-
-  @Test
   void checkInvalidDocumentTitle() {
     final var document = EntityFixture.createBasicDocument();
     document.setTitle(null);
