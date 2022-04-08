@@ -47,10 +47,6 @@ public class Epic extends PanacheEntityBase implements Serializable {
   @ToString.Exclude
   private List<Document> associatedDocuments;
 
-  @Version
-  @JsonbTransient
-  private Integer version;
-
   @Override
   public boolean equals(final Object o) {
     if (this == o) {

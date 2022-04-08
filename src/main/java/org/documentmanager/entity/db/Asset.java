@@ -94,7 +94,7 @@ public class Asset extends PanacheEntityBase implements Serializable {
   @JsonbTransient
   @JoinColumn(name = "document_id")
   @ManyToOne(
-          cascade = {CascadeType.MERGE, CascadeType.PERSIST}
+          cascade = {CascadeType.MERGE}
   )
   @ToString.Exclude
   private Document document;
@@ -104,7 +104,7 @@ public class Asset extends PanacheEntityBase implements Serializable {
   @NotNull
   @PropertyBinding(binder = @PropertyBinderRef(type = MetadataValueBinder.class))
   //@IndexedEmbedded
-  private Set<Metadata> metadata = Collections.emptySet();
+  private Set<Metadata> metadata = new HashSet<>();
 
   public static List<Asset> findByIds(final Collection<Long> ids) {
     return list("id in :ids", Parameters.with("ids", ids));

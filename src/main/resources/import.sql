@@ -1,34 +1,34 @@
 -- Set up some testing data
 
-insert into epic (id, name, version)
-values (1, 'Epic 1', 1);
+insert into epic (id, name)
+values (1, 'Epic 1');
 
 
-insert into epic (id, name, version)
-values (2, 'Epic 2', 1);
-
-
-insert into document (id, created, description, lastupdated,
-                      title, version, epic_id)
-values (1, now(), 'Some Stupid description', now(), 'Document 1', 1, 1);
+insert into epic (id, name)
+values (2, 'Epic 2');
 
 
 insert into document (id, created, description, lastupdated,
-                      title, version, epic_id)
-values (2, now(), 'Some Stupid description', now(), 'Document 2', 1, 2);
+                      title, epic_id)
+values (1, now(), 'Some Stupid description', now(), 'Document 1', 1);
 
 
 insert into document (id, created, description, lastupdated,
-                      title, version, epic_id)
-values (3, now(), 'Some Stupid description', now(), 'Document 3', 1, 1);
+                      title, epic_id)
+values (2, now(), 'Some Stupid description', now(), 'Document 2', 2);
 
 
-insert into label (id, name, version)
-values (1, 'Label 1', 1);
+insert into document (id, created, description, lastupdated,
+                      title, epic_id)
+values (3, now(), 'Some Stupid description', now(), 'Document 3', 1);
 
 
-insert into label (id, name, version)
-values (2, 'Label 2', 1);
+insert into label (id, name)
+values (1, 'Label 1');
+
+
+insert into label (id, name)
+values (2, 'Label 2');
 
 
 insert into asset (id, created, filename, filesize,
