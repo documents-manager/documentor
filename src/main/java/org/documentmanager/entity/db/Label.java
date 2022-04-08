@@ -46,14 +46,14 @@ public class Label extends PanacheEntityBase implements Serializable {
   )
   private String name;
 
-  @ManyToMany(mappedBy = "labels")
+  @ManyToMany
+  @JoinTable(
+          name = "Document_Label",
+          joinColumns = @JoinColumn(name = "label_id"),
+          inverseJoinColumns = @JoinColumn(name = "document_id"))
   @JsonbTransient
   @ToString.Exclude
   private List<Document> associatedDocuments;
-
-  @Version
-  @JsonbTransient
-  private Integer version;
 
   public static List<Label> findByIds(final Collection<Long> ids) {
     return list("id in :ids", Parameters.with("ids", ids));

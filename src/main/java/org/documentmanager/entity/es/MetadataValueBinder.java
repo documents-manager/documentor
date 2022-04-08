@@ -46,6 +46,10 @@ public class MetadataValueBinder implements PropertyBinder {
 
             final DocumentElement indexedUserMetadata = target.addObject(userMetadataFieldReference);
 
+            if (bridgedElement == null) {
+                return;
+            }
+
             for (final var entry : bridgedElement) {
                 final var e = (Metadata) entry;
                 final String fieldName = e.getKey().replace(" ", "_");

@@ -19,7 +19,6 @@ public class EntityFixture {
     final var label = new Label();
     label.setId(LABEL_ID);
     label.setName("SOME NAME");
-    label.setVersion(1);
     label.setAssociatedDocuments(null);
     return label;
   }
@@ -28,7 +27,6 @@ public class EntityFixture {
     final var epic = new Epic();
     epic.setId(EPIC_ID);
     epic.setName("SOME NAME");
-    epic.setVersion(1);
     epic.setAssociatedDocuments(null);
     return epic;
   }
@@ -52,7 +50,6 @@ public class EntityFixture {
     document.setLastUpdated(LocalDateTime.now());
     document.setDescription("Some description");
     document.setTitle("Some Title");
-    document.setVersion(1);
     return document;
   }
 

@@ -17,7 +17,6 @@ class DocumentTest {
   @Test
   void checkInvalidDocumentMissingVersion() {
     final var document = EntityFixture.createBasicDocument();
-    document.setVersion(null);
     assertThat(document, validateFalse());
   }
 
