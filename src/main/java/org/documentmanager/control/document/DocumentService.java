@@ -54,6 +54,15 @@ public class DocumentService {
             document.setLabels(labels);
         }
 
+        if (document.getAssets() != null) {
+            final var assetIds = document.getAssets().stream().map(Asset::getId).collect(Collectors.toSet());
+            final var assets = Asset.findByIds(assetIds);
+            for (Asset asset : assets) {
+                asset.setDocument(document);
+            }
+            document.setAssets(assets);
+        }
+
 
         document.persist();
     }
