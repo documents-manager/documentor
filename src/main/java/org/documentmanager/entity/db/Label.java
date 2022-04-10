@@ -8,7 +8,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.hibernate.Hibernate;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
 import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
-import org.hibernate.search.mapper.pojo.mapping.definition.annotation.KeywordField;
 
 import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
@@ -38,7 +37,7 @@ public class Label extends PanacheEntityBase implements Serializable {
 
   @Schema(type = SchemaType.STRING, example = "Bank")
   @NotBlank
-  @KeywordField
+  @FullTextField(analyzer = "german")
   @FullTextField(
           name = "name_autocomplete",
           analyzer = "autocomplete_indexing",

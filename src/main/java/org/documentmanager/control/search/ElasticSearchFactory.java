@@ -58,7 +58,7 @@ public class ElasticSearchFactory {
         return query == null || query.trim().isEmpty() ?
                 f.matchAll() :
                 f.simpleQueryString()
-                        .fields("description", "title", "assets.ocrContent")
+                        .fields("description", "title", "assets.ocrContent", "epic", "labels.name")
                         .matching(query);
     }
 

@@ -78,6 +78,7 @@ public class Document extends PanacheEntityBase implements Serializable {
     private LocalDateTime lastUpdated;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
+    @FullTextField(analyzer = "german", valueBridge = @ValueBridgeRef(type = EpicBridge.class))
     @KeywordField(
             name = "epic_sort",
             sortable = Sortable.YES,
