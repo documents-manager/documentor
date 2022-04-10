@@ -1,7 +1,6 @@
 package org.documentmanager.control.asset;
 
 import io.smallrye.mutiny.Uni;
-import org.documentmanager.control.asset.AssetFactory;
 import org.documentmanager.control.s3.S3Service;
 import org.documentmanager.entity.db.Asset;
 import org.documentmanager.entity.db.Document;
@@ -44,7 +43,9 @@ public class AssetService {
 
         return s3.uploadObject(asset.getId().toString(), formData)
                 .onItem()
-                .transform(putObjectResponse -> asset);
+                .transform(putObjectResponse -> {
+                    return asset;
+                });
     }
 
     @Transactional
