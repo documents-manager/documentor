@@ -7,7 +7,7 @@ import org.jboss.resteasy.annotations.providers.multipart.PartType;
 
 import javax.ws.rs.FormParam;
 import javax.ws.rs.core.MediaType;
-import java.io.InputStream;
+import java.io.File;
 
 @Data
 @NoArgsConstructor
@@ -15,8 +15,9 @@ import java.io.InputStream;
 public class FormData {
 
   @FormParam("file")
+
   @PartType(MediaType.APPLICATION_OCTET_STREAM)
-  private InputStream data;
+  private File data;
 
   @FormParam("filename")
   @PartType(MediaType.TEXT_PLAIN)

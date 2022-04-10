@@ -63,7 +63,6 @@ public class StagingResource {
             @HeaderParam("Accept-Language")
             final String language)
             throws IOException, NoSuchAlgorithmException {
-        System.out.println();
         if (formData.getFileName() == null
                 || formData.getFileName().isEmpty()
                 || formData.getMimeType() == null

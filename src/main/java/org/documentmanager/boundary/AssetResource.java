@@ -97,29 +97,29 @@ public final class AssetResource {
       responseCode = "404",
       description = "Not Found",
       content =
-          @Content(
+      @Content(
               mediaType = MediaType.APPLICATION_JSON,
               schema = @Schema(implementation = S3ExceptionMapper.S3Error.class)))
   @Operation(summary = "Download an asset.", description = "Downloads an asset.")
   public Uni<Response> downloadFile(
-      @Parameter(
-              description = "Id of the asset.",
-              example = "1234566779",
-              schema = @Schema(type = SchemaType.STRING))
-          @PathParam("objectKey")
-          final String objectKey) {
-    return s3Service
-        .getObject(objectKey)
-        .onItem()
-        .transform(
-            res -> {
-              final var file = res.getFile();
-              final var contentType = res.getObject().contentType();
-              return Response.ok(file)
-                  .header("Content-Disposition", "attachment;filename=" + file.getName())
-                  .header("Content-Type", contentType)
-                  .build();
-            });
+          @Parameter(
+                  description = "Id of the asset.",
+                  example = "1234566779",
+                  schema = @Schema(type = SchemaType.INTEGER))
+          @PathParam("objectKey") final Long assetId) {
+      final Asset asset = Asset.findById(assetId);
+      return s3Service
+              .getObject(String.valueOf(assetId))
+              .onItem()
+              .transform(
+                      res -> {
+                          final var file = res.getFile();
+                          final var contentType = res.getObject().contentType();
+                          return Response.ok(file)
+                                  .header("Content-Disposition", "attachment;filename=" + asset.getFileName())
+                                  .header("Content-Type", contentType)
+                                  .build();
+                      });
   }
 
   @DELETE

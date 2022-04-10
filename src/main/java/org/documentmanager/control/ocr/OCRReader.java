@@ -9,8 +9,10 @@ import org.documentmanager.entity.ocr.ParseContent;
 import org.documentmanager.entity.s3.FormData;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 
 @ApplicationScoped
 public class OCRReader {
@@ -28,12 +30,17 @@ public class OCRReader {
     return parse(formData.getData(), formData.getMimeType());
   }
 
-  public ParseContent parse(final InputStream inputStream, final String contentType) {
-    final var tikaInputStream = TikaInputStream.get(inputStream);
-    final var languageHandler = new LanguageHandler(langDetector);
-    final var handler = new BodyContentHandler(languageHandler);
-    final var parse = parser.parse(tikaInputStream, contentType, handler);
-    final var languageResult = languageHandler.getLanguage();
-    return new ParseContent(parse, languageResult);
+  public ParseContent parse(final File file, final String contentType) throws FileNotFoundException {
+    try (final var inputStream = new FileInputStream(file)) {
+      final var tikaInputStream = TikaInputStream.get(inputStream);
+      final var languageHandler = new LanguageHandler(langDetector);
+      final var handler = new BodyContentHandler(languageHandler);
+      final var parse = parser.parse(tikaInputStream, contentType, handler);
+      final var languageResult = languageHandler.getLanguage();
+      return new ParseContent(parse, languageResult);
+    } catch (IOException e) {
+      e.printStackTrace();
+      return null;
+    }
   }
 }
