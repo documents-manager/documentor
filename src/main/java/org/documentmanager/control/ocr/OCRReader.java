@@ -5,13 +5,13 @@ import org.apache.tika.io.TikaInputStream;
 import org.apache.tika.langdetect.OptimaizeLangDetector;
 import org.apache.tika.language.detect.LanguageHandler;
 import org.apache.tika.sax.BodyContentHandler;
+import org.apache.tika.sax.TeeContentHandler;
 import org.documentmanager.entity.ocr.ParseContent;
 import org.documentmanager.entity.s3.FormData;
 
 import javax.enterprise.context.ApplicationScoped;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 @ApplicationScoped
@@ -26,18 +26,19 @@ public class OCRReader {
     langDetector.loadModels();
   }
 
-  public ParseContent parse(final FormData formData) throws IOException {
+  public ParseContent parse(final FormData formData) {
     return parse(formData.getData(), formData.getMimeType());
   }
 
-  public ParseContent parse(final File file, final String contentType) throws FileNotFoundException {
+  public ParseContent parse(final File file, final String contentType) {
     try (final var inputStream = new FileInputStream(file)) {
       final var tikaInputStream = TikaInputStream.get(inputStream);
       final var languageHandler = new LanguageHandler(langDetector);
-      final var handler = new BodyContentHandler(languageHandler);
+      final var bodyHandler = new BodyContentHandler();
+      final var handler = new TeeContentHandler(languageHandler, bodyHandler);
       final var parse = parser.parse(tikaInputStream, contentType, handler);
       final var languageResult = languageHandler.getLanguage();
-      return new ParseContent(parse, languageResult);
+      return new ParseContent(parse, bodyHandler.toString(), languageResult);
     } catch (IOException e) {
       e.printStackTrace();
       return null;

@@ -9,5 +9,6 @@ import org.apache.tika.language.detect.LanguageResult;
 @AllArgsConstructor
 public class ParseContent {
   private final TikaContent tikaContent;
+  private final String text;
   private final LanguageResult languageResult;
 }

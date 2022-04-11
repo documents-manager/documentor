@@ -122,6 +122,10 @@
       <version>1.0.3</version>
     </dependency>
     <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-awt</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.apache.tika</groupId>
       <artifactId>tika-langdetect</artifactId>
       <version>${tika.version}</version>

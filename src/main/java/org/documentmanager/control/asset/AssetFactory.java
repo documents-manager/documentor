@@ -32,7 +32,7 @@ public class AssetFactory {
             ? languageResult.getLanguage()
             : language;
     final var tikaContent = parseContent.getTikaContent();
-    final var ocrContent = tikaContent.getText().trim();
+    final var ocrContent = parseContent.getText().trim();
     final var tikaMetadata = tikaContent.getMetadata();
     final var filename = formData.getFileName();
     final var contentType = tikaMetadata.getSingleValue("Content-Type");
