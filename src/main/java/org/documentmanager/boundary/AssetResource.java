@@ -100,7 +100,7 @@ public final class AssetResource {
       @Content(
               mediaType = MediaType.APPLICATION_JSON,
               schema = @Schema(implementation = S3ExceptionMapper.S3Error.class)))
-  @Operation(summary = "Download an asset.", description = "Downloads an asset.")
+  @Operation(summary = "Displays Asset as Web page or download.", description = "Displays Asset as Web page or download.")
   public Uni<Response> downloadFile(
           @Parameter(
                   description = "Id of the asset.",
@@ -116,7 +116,7 @@ public final class AssetResource {
                           final var file = res.getFile();
                           final var contentType = res.getObject().contentType();
                           return Response.ok(file)
-                                  .header("Content-Disposition", "attachment;filename=" + asset.getFileName())
+                                  .header("Content-Disposition", "inline;filename=" + asset.getFileName())
                                   .header("Content-Type", contentType)
                                   .build();
                       });
