@@ -47,12 +47,12 @@ class AssetResourceTest {
   void downloadFile() {
     final var byteArray =
         given()
-            .get("documents/1/assets/1")
-            .then()
-            .log()
-            .ifValidationFails()
-            .header("Content-Type", "application/pdf")
-            .header("Content-Disposition", matchesPattern("attachment;filename=.+"))
+                .get("documents/1/assets/1")
+                .then()
+                .log()
+                .ifValidationFails()
+                .header("Content-Type", "application/pdf")
+                .header("Content-Disposition", matchesPattern("inline;filename=.+"))
             .extract()
             .asByteArray();
 
