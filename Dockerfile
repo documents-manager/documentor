@@ -14,7 +14,7 @@
 # docker run -i --rm -p 8080:8080 quarkus/document-manager
 #
 ###
-FROM registry.access.redhat.com/ubi8/ubi-minimal:8.4
+FROM registry.access.redhat.com/ubi8/ubi-minimal:8.5
 COPY fedora.repo /etc/yum.repos.d/fedora.repo
 RUN microdnf install -y --enablerepo=fedora ImageMagick tesseract tesseract-langpack-eng tesseract-langpack-deu
 WORKDIR /work/
