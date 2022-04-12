@@ -41,10 +41,16 @@ public class Epic extends PanacheEntityBase implements Serializable {
   )
   private String name;
 
-  @OneToMany(mappedBy = "epic", cascade = CascadeType.MERGE)
+  @OneToMany(mappedBy = "epic")
   @JsonbTransient
   @ToString.Exclude
   private List<Document> associatedDocuments;
+
+  @PreRemove
+  private void preRemove() {
+    associatedDocuments.forEach( child -> child.setEpic(null));
+  }
+
 
   @Override
   public boolean equals(final Object o) {
