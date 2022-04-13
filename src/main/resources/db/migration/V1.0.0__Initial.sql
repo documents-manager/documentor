@@ -20,11 +20,9 @@ alter sequence metadataseq owner to postgres;
 
 create table epic
 (
-    id      bigint not null
-        constraint epic_pkey
-            primary key,
-    name    varchar(255),
-    version integer
+    id   bigint not null
+        primary key,
+    name varchar(255)
 );
 
 alter table epic
@@ -33,13 +31,11 @@ alter table epic
 create table document
 (
     id          bigint    not null
-        constraint document_pkey
-            primary key,
+        primary key,
     created     timestamp not null,
     description text,
     lastupdated timestamp,
     title       varchar(255),
-    version     integer,
     epic_id     bigint
         constraint fkgxyiq99r2y6s5cijjvusmjd9a
             references epic
@@ -51,13 +47,13 @@ alter table document
 create table asset
 (
     id          bigint not null
-        constraint asset_pkey
-            primary key,
+        primary key,
+    contenttype varchar(255),
     created     timestamp,
     filename    varchar(255),
     filesize    bigint,
     hash        varchar(255),
-    mimetype    varchar(255),
+    language    varchar(255),
     ocrcontent  text,
     document_id bigint
         constraint fkqkj5kicyplem4ddnpu5g9baxc
@@ -76,8 +72,7 @@ create table documentreference
         constraint fkg9qws9y5srhb6cgstj98a0w64
             references document,
     referencetype varchar(255),
-    constraint documentreference_pkey
-        primary key (source_id, target_id)
+    primary key (source_id, target_id)
 );
 
 alter table documentreference
@@ -85,11 +80,9 @@ alter table documentreference
 
 create table label
 (
-    id      bigint not null
-        constraint label_pkey
-            primary key,
-    name    varchar(255),
-    version integer
+    id   bigint not null
+        primary key,
+    name varchar(255)
 );
 
 alter table label
@@ -97,12 +90,12 @@ alter table label
 
 create table document_label
 (
-    document_id bigint not null
-        constraint fk7mh19a918bcadrhs7fxv28rwp
-            references document,
     label_id    bigint not null
         constraint fkec7brcy597992cmatolvg5syi
-            references label
+            references label,
+    document_id bigint not null
+        constraint fk7mh19a918bcadrhs7fxv28rwp
+            references document
 );
 
 alter table document_label
@@ -111,8 +104,7 @@ alter table document_label
 create table metadata
 (
     id       bigint not null
-        constraint metadata_pkey
-            primary key,
+        primary key,
     key      varchar(255),
     value    varchar(255),
     asset_id bigint
