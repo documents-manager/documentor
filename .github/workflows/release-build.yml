@@ -35,55 +35,25 @@ jobs:
           asset_name: documentor-${{ github.event.release.tag_name }}.jar
           asset_content_type: application/octet-stream
 
-  build-native:
-    name: Build and test native linux executable
+  build-docker-image:
+    name: Build docker image
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
-      - name: Install graalvm
-        uses: DeLaGuardo/setup-graalvm@3
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
         with:
-          graalvm-version: '21.3.0.java11'
-      - name: Install native-image
-        run: gu install native-image
+          java-version: '11'
+          distribution: 'adopt'
       - name: Set version
         run: ./mvnw versions:set -DnewVersion="${{ github.event.release.tag_name }}"
-      - name: Build native executable
-        run: ./mvnw package -Pnative
-      - name: Upload native executable
-        id: upload-native-executable
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ github.event.release.upload_url }}
-          asset_path: ./target/documentor-${{ github.event.release.tag_name }}-runner
-          asset_name: documentor-${{ github.event.release.tag_name }}-linux
-          asset_content_type: application/octet-stream
-      - name: Upload native-executable for Docker Build
-        id: upload-native-executable-for-docker
-        uses: actions/upload-artifact@master
-        with:
-          name: documentor-runner
-          path: ./target/documentor-${{ github.event.release.tag_name }}-runner
-
-  push_to_registry:
-    name: Push Docker image to Github Packages
-    needs: build-native
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v1
+      - name: Build jar
+        run: ./mvnw clean package
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Download built artifact
-        uses: actions/download-artifact@master
-        with:
-          name: documentor-runner
-          path: ./target/documentor-runner
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
