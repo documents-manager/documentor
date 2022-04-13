@@ -1,3 +1,23 @@
+create sequence assetseq;
+
+alter sequence assetseq owner to postgres;
+
+create sequence documentseq;
+
+alter sequence documentseq owner to postgres;
+
+create sequence epicseq;
+
+alter sequence epicseq owner to postgres;
+
+create sequence labelseq;
+
+alter sequence labelseq owner to postgres;
+
+create sequence metadataseq;
+
+alter sequence metadataseq owner to postgres;
+
 create table epic
 (
     id      bigint not null
@@ -6,6 +26,9 @@ create table epic
     name    varchar(255),
     version integer
 );
+
+alter table epic
+    owner to postgres;
 
 create table document
 (
@@ -22,6 +45,9 @@ create table document
             references epic
 );
 
+alter table document
+    owner to postgres;
+
 create table asset
 (
     id          bigint not null
@@ -31,13 +57,15 @@ create table asset
     filename    varchar(255),
     filesize    bigint,
     hash        varchar(255),
-    contentType varchar(255),
-    language    varchar(255),
+    mimetype    varchar(255),
     ocrcontent  text,
     document_id bigint
         constraint fkqkj5kicyplem4ddnpu5g9baxc
             references document
 );
+
+alter table asset
+    owner to postgres;
 
 create table documentreference
 (
@@ -52,17 +80,8 @@ create table documentreference
         primary key (source_id, target_id)
 );
 
-create table epic_document
-(
-    epic_id                bigint not null
-        constraint fk6planssgp79n3yl7prpruswu8
-            references epic,
-    associateddocuments_id bigint not null
-        constraint uk_2k7oho87ckm6lycc7s7kw77s3
-            unique
-        constraint fkilgtll0xcm3decn9wtly7h2tm
-            references document
-);
+alter table documentreference
+    owner to postgres;
 
 create table label
 (
@@ -73,6 +92,9 @@ create table label
     version integer
 );
 
+alter table label
+    owner to postgres;
+
 create table document_label
 (
     document_id bigint not null
@@ -82,4 +104,22 @@ create table document_label
         constraint fkec7brcy597992cmatolvg5syi
             references label
 );
+
+alter table document_label
+    owner to postgres;
+
+create table metadata
+(
+    id       bigint not null
+        constraint metadata_pkey
+            primary key,
+    key      varchar(255),
+    value    varchar(255),
+    asset_id bigint
+        constraint fkksinagw76yhoma0ccku2k41it
+            references asset
+);
+
+alter table metadata
+    owner to postgres;
 

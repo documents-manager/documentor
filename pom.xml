@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
-         xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.documentmanager</groupId>
   <artifactId>documentor</artifactId>
@@ -9,6 +8,11 @@
   <properties>
     <compiler-plugin.version>3.10.1</compiler-plugin.version>
     <failsafe.useModulePath>false</failsafe.useModulePath>
+    <jai.version>1.4.0</jai.version>
+    <jbig2-imageio.version>3.0.4</jbig2-imageio.version>
+    <lombok.version>1.18.22</lombok.version>
+    <mapstruct.version>1.4.2.Final</mapstruct.version>
+    <mapstuct-binding.version>0.2.0</mapstuct-binding.version>
     <maven.compiler.release>11</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -16,14 +20,8 @@
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>2.7.5.Final</quarkus.platform.version>
     <surefire-plugin.version>3.0.0-M6</surefire-plugin.version>
-
-    <lombok.version>1.18.22</lombok.version>
-    <mapstruct.version>1.4.2.Final</mapstruct.version>
     <testcontainers.version>1.16.3</testcontainers.version>
-    <jbig2-imageio.version>3.0.4</jbig2-imageio.version>
-    <jai.version>1.4.0</jai.version>
     <tika.version>1.28.1</tika.version>
-    <mapstuct-binding.version>0.2.0</mapstuct-binding.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -146,6 +144,10 @@
       <version>${jai.version}</version>
     </dependency>
     <dependency>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-container-image-jib</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.testcontainers</groupId>
       <artifactId>elasticsearch</artifactId>
       <version>${testcontainers.version}</version>
@@ -174,10 +176,6 @@
       <version>${lombok.version}</version>
       <scope>compile</scope>
     </dependency>
-    <!--
-    Make mapstruct and lombok work together
-    See: https://mapstruct.org/faq/#Can-I-use-MapStruct-together-with-Project-Lombok
-     -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok-mapstruct-binding</artifactId>
@@ -198,7 +196,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
   <build>
     <plugins>
       <plugin>
@@ -269,8 +266,8 @@
         </plugins>
       </build>
       <properties>
-        <quarkus.package.type>native</quarkus.package.type>
         <quarkus.native.add-all-charsets>true</quarkus.native.add-all-charsets>
+        <quarkus.package.type>native</quarkus.package.type>
       </properties>
     </profile>
   </profiles>
