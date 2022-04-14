@@ -28,4 +28,11 @@ public class DashboardResource {
                 .collect(Collectors.toList());
         return Response.ok(documents).build();
     }
+
+    @Path("count")
+    @GET
+    public Response count() {
+        final var countStats = statsService.countStats();
+        return Response.ok(countStats).build();
+    }
 }
