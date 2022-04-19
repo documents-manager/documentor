@@ -8,7 +8,7 @@ import java.util.List;
 
 @ApplicationScoped
 public class StatsService {
-    public List<Document> lastUpdated(int amount) {
+    public List<Document> lastUpdatedDocuments(int amount) {
         return Document.lastUpdated(amount);
     }
 
@@ -26,5 +26,9 @@ public class StatsService {
                 .labelCount(labelCount)
                 .referenceCount(referenceCount)
                 .build();
+    }
+
+    public List<Asset> unassignedAssets() {
+        return Asset.findUnassigned();
     }
 }

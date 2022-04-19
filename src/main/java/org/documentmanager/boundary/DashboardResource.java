@@ -1,5 +1,6 @@
 package org.documentmanager.boundary;
 
+import org.documentmanager.control.settings.SettingsService;
 import org.documentmanager.control.stats.StatsService;
 import org.documentmanager.mapper.DocumentMapper;
 
@@ -19,10 +20,13 @@ public class DashboardResource {
     @Inject
     StatsService statsService;
 
-    @Path("last-updated")
+    @Inject
+    SettingsService settingsService;
+
+    @Path("last-updated-documents")
     @GET
-    public Response lastUpdated(@QueryParam("amount") @DefaultValue("10") int amount) {
-        final var documents = statsService.lastUpdated(amount)
+    public Response lastUpdatedDocuments(@QueryParam("amount") @DefaultValue("10") int amount) {
+        final var documents = statsService.lastUpdatedDocuments(amount)
                 .stream()
                 .map(doc -> mapper.toListDto(doc))
                 .collect(Collectors.toList());
@@ -34,5 +38,27 @@ public class DashboardResource {
     public Response count() {
         final var countStats = statsService.countStats();
         return Response.ok(countStats).build();
+    }
+
+    @Path("unassigned-assets")
+    @GET
+    public Response unassignedAssets() {
+        final var assets = statsService.unassignedAssets()
+                .stream()
+                .map(asset -> mapper.toAssetDto(asset))
+                .collect(Collectors.toList());
+        return Response.ok(assets).build();
+    }
+
+    @Path("reindex")
+    @GET
+    public Response reindex() {
+        try {
+            settingsService.reindex();
+            return Response.ok().build();
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return Response.serverError().build();
+        }
     }
 }
