@@ -10,7 +10,7 @@
     <failsafe.useModulePath>false</failsafe.useModulePath>
     <jai.version>1.4.0</jai.version>
     <jbig2-imageio.version>3.0.4</jbig2-imageio.version>
-    <lombok.version>1.18.22</lombok.version>
+    <lombok.version>1.18.24</lombok.version>
     <mapstruct.version>1.4.2.Final</mapstruct.version>
     <mapstuct-binding.version>0.2.0</mapstuct-binding.version>
     <maven.compiler.release>11</maven.compiler.release>
