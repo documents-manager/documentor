@@ -110,6 +110,10 @@ public class Asset extends PanacheEntityBase implements Serializable {
     return list("id in :ids", Parameters.with("ids", ids));
   }
 
+  public static List<Asset> findUnassigned() {
+    return list("document_id is null");
+  }
+
   @Override
   public boolean equals(final Object o) {
     if (this == o) {

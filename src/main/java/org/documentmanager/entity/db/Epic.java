@@ -46,9 +46,13 @@ public class Epic extends PanacheEntityBase implements Serializable {
   @ToString.Exclude
   private List<Document> associatedDocuments;
 
+  public static List<Epic> lastUpdated(final int amount) {
+    return null;
+  }
+
   @PreRemove
   private void preRemove() {
-    associatedDocuments.forEach( child -> child.setEpic(null));
+    associatedDocuments.forEach(child -> child.setEpic(null));
   }
 
 

@@ -13,4 +13,5 @@ import java.util.List;
 public class DocumentDto extends DocumentListDto implements Serializable {
     private List<AssetDto> assets = new ArrayList<>();
     private List<DocumentReferenceDto> references = new ArrayList<>();
+    private List<DocumentReferenceDto> referencedBy = new ArrayList<>();
 }
