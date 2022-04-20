@@ -31,4 +31,8 @@ public class StatsService {
     public List<Asset> unassignedAssets() {
         return Asset.findUnassigned();
     }
+
+    public List<Document> lastCreatedDocuments(final int amount) {
+        return Document.lastCreated(amount);
+    }
 }

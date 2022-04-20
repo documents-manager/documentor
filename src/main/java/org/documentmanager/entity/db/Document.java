@@ -124,6 +124,12 @@ public class Document extends PanacheEntityBase implements Serializable {
                 .list();
     }
 
+    public static List<Document> lastCreated(final int amount) {
+        return find("order by created desc")
+                .range(0, amount - 1)
+                .list();
+    }
+
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;
