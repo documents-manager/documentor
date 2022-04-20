@@ -10,7 +10,7 @@
     <failsafe.useModulePath>false</failsafe.useModulePath>
     <jai.version>1.4.0</jai.version>
     <jbig2-imageio.version>3.0.4</jbig2-imageio.version>
-    <lombok.version>1.18.22</lombok.version>
+    <lombok.version>1.18.24</lombok.version>
     <mapstruct.version>1.4.2.Final</mapstruct.version>
     <mapstuct-binding.version>0.2.0</mapstuct-binding.version>
     <maven.compiler.release>11</maven.compiler.release>
@@ -18,9 +18,9 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>2.7.5.Final</quarkus.platform.version>
+    <quarkus.platform.version>2.8.0.Final</quarkus.platform.version>
     <surefire-plugin.version>3.0.0-M6</surefire-plugin.version>
-    <testcontainers.version>1.16.3</testcontainers.version>
+    <testcontainers.version>1.17.1</testcontainers.version>
     <tika.version>1.28.1</tika.version>
   </properties>
   <dependencyManagement>
