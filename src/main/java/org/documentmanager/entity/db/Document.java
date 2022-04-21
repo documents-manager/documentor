@@ -118,12 +118,6 @@ public class Document extends PanacheEntityBase implements Serializable {
     @ToString.Exclude
     private List<DocumentReference> referencedBy = new ArrayList<>();
 
-    public static List<Document> lastUpdated(final int amount) {
-        return find("order by lastupdated desc")
-                .range(0, amount - 1)
-                .list();
-    }
-
     @Override
     public boolean equals(final Object o) {
         if (this == o) return true;

@@ -33,6 +33,16 @@ public class DashboardResource {
         return Response.ok(documents).build();
     }
 
+    @Path("last-created-documents")
+    @GET
+    public Response lastCreatedDocuments(@QueryParam("amount") @DefaultValue("10") int amount) {
+        final var documents = statsService.lastCreatedDocuments(amount)
+                .stream()
+                .map(doc -> mapper.toListDto(doc))
+                .collect(Collectors.toList());
+        return Response.ok(documents).build();
+    }
+
     @Path("count")
     @GET
     public Response count() {
