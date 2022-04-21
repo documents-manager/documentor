@@ -8,6 +8,7 @@ import java.util.Objects;
 
 @Data
 public class DocumentReferenceDto implements Serializable {
+  private DocumentLinkDto sourceDocument;
   private DocumentLinkDto targetDocument;
   private DocumentReferenceType referenceType;
 
